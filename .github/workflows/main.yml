@@ -15,8 +15,13 @@ jobs:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
           enable-AzPSSession: true
 
-      - name: Azure PowerShell Action
-        uses: Azure/powershell@v1
+      # Deploy ARM template
+      - name: Run ARM deploy
+        uses: azure/arm-deploy@v1
+        id: deploy
         with:
-          inlineScript: New-AzResourceGroup -Name "mhwebsitedev"
-          azPSVersion: "latest"
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          region: eastus
+          template: ./azuredeploy.json
+          scope: subscription
+          parameters: ./azuredeploy.parameters.json
