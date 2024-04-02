@@ -19,16 +19,31 @@
         }
     },
     "variables": {
-        "resourceGroupName": "[concat(parameters('appName'), '-', parameters('environment'), '-rg')]"
+        "resourceGroupName": "[concat(parameters('appName'), '-', parameters('environment'), '-rg')]",
+        "storageAccountName": "[concat(parameters('appName'), parameters('environment'), 'storage')]"
     },
     "resources": [
   {
     "name": "[variables('resourceGroupName')]",
     "type": "Microsoft.Resources/resourceGroups",
     "apiVersion": "2022-09-01",
-    "location": "eastus",
+    "location": "[parameters('appLocation')]",
     "dependsOn": [],
     "tags": {}
-  }
+  },
+{
+    "name": "[variables('storageAccountName')]",
+    "type": "Microsoft.Storage/storageAccounts",
+    "apiVersion": "2023-01-01",
+    "tags": {
+        "displayName": "[variables('storageAccountName')]"
+    },
+    "location": "[resourceGroup().location]",
+    "kind": "StorageV2",
+    "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+    }
+}
     ]
   }
