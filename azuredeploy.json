@@ -35,6 +35,7 @@
         "name": "linkedDeployment1",
         "type": "Microsoft.Resources/deployments",
         "apiVersion": "2022-09-01",
+        "location": "[parameters('appLocation')]",
         "properties": {
             "mode": "Incremental",
             "templateLink": {
