@@ -31,19 +31,29 @@
             "dependsOn": [],
             "tags": {}
         },
-        {
-            "name": "[variables('storageAccountName')]",
-            "type": "Microsoft.Storage/storageAccounts",
-            "apiVersion": "2023-01-01",
-            "tags": {
-                "displayName": "[variables('storageAccountName')]"
+       {
+        "name": "linkedDeployment1",
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2022-09-01",
+        "dependsOn": ["[resourceId('Microsoft.Resources/resourceGroups', variables('resourceGroupName'))]"],
+        "properties": {
+            "mode": "Incremental",
+            "templateLink": {
+                "relativePath": "storage_create.json",
+                "contentVersion": "1.0.0.0"
             },
-            "location": "[parameters('appLocation')]",
-            "kind": "StorageV2",
-            "sku": {
-                "name": "Standard_LRS",
-                "tier": "Standard"
+            "parameters": {
+                "appLocation": {
+                    "value": "[parameters('appLocation')]"
+                },
+                "appName": {
+                    "value": "[parameters('appName')]"
+                },
+                "environment": {
+                    "value": "[parameters('environment')]"
+                }
             }
         }
+       }
     ]
   }
