@@ -41,16 +41,9 @@
             "templateLink": {
                 "uri": "https://raw.githubusercontent.com/countryguy775/website_backend/main/storage_create.json"
             },
-            "parameters": {
-                "appLocation": {
-                    "value": "[parameters('appLocation')]"
-                },
-                "appName": {
-                    "value": "[parameters('appName')]"
-                },
-                "environment": {
-                    "value": "[parameters('environment')]"
-                }
+            "parametersLink": {
+                "uri": "https://raw.githubusercontent.com/countryguy775/website_backend/main/azuredeploy.parameters.json"
+            }
             }
         }
        }
