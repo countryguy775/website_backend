@@ -50,21 +50,21 @@
                 }
             }
         },
-     {
-        "name": "deploy_cdn",
-        "type": "Microsoft.Resources/deployments",
-        "apiVersion": "2022-09-01",
-        "resourceGroup": "[variables('resourceGroupName')]",
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": {
-                "uri": "https://raw.githubusercontent.com/countryguy775/website_backend/main/cdn_create.json",
-                "contentVersion": "1.0.0.0"
-            },
-            "parametersLink": {
-                    "uri": "https://raw.githubusercontent.com/countryguy775/website_backend/main/azuredeploy.parameters.json"
-                }
+        {
+            "name": "deploy_cdn",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "resourceGroup": "[variables('resourceGroupName')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/countryguy775/website_backend/main/cdn_create.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parametersLink": {
+                        "uri": "https://raw.githubusercontent.com/countryguy775/website_backend/main/azuredeploy.parameters.json"
+                    }
+            }
         }
-     }
     ]
   }

@@ -2,7 +2,19 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "appLocation": {
+            "type": "string"
+        },
         "appName": {
+            "type": "string"
+        },
+        "environment": {
+            "type": "string"
+        },
+        "indexDocument": {
+            "type": "string"
+        },
+        "errorDocument404Path": {
             "type": "string"
         },
         "dnszones_externalid": {
