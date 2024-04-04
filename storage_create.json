@@ -16,9 +16,6 @@
         },
         "errorDocument404Path": {
             "type": "string"
-        },
-        "dnszones_externalid": {
-            "type": "string"
         }
     },
     "variables": {
