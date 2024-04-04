@@ -1,0 +1,63 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "appName": {
+            "type": "string"
+        },
+        "dnszones_externalid": {
+            "type": "string"
+        }
+    },
+    "variables": {
+        "profileName": "[concat(parameters('appName'), '-cdn')]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Cdn/profiles",
+            "apiVersion": "2022-11-01-preview",
+            "name": "[variables('profileName')]",
+            "location": "Global",
+            "sku": {
+                "name": "Standard_AzureFrontDoor"
+            },
+            "kind": "frontdoor",
+            "properties": {
+                "originResponseTimeoutSeconds": 60,
+                "extendedProperties": {}
+            }
+        },
+        {
+            "type": "Microsoft.Cdn/profiles/afdendpoints",
+            "apiVersion": "2022-11-01-preview",
+            "name": "[concat(variables('profileName'), '/thehodgesfamily')]",
+            "location": "Global",
+            "dependsOn": [
+                "[resourceId('Microsoft.Cdn/profiles', variables('profileName'))]"
+            ],
+            "properties": {
+                "enabledState": "Enabled"
+            }
+        },
+        
+        
+        {
+            "type": "Microsoft.Cdn/profiles/customdomains",
+            "apiVersion": "2022-11-01-preview",
+            "name": "[concat(variables('profileName'), '/dev-thehodgesfamily-net')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Cdn/profiles', variables('profileName'))]"
+            ],
+            "properties": {
+                "hostName": "dev.thehodgesfamily.net",
+                "tlsSettings": {
+                    "certificateType": "ManagedCertificate",
+                    "minimumTlsVersion": "TLS12"
+                },
+                "azureDnsZone": {
+                    "id": "[parameters('dnszones_externalid')]"
+                }
+            }
+        }
+    ]
+}
