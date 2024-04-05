@@ -29,7 +29,7 @@
         {
             "type": "Microsoft.DocumentDB/databaseAccounts",
             "apiVersion": "2023-11-15",
-            "name": "[parameters('dbName')]",
+            "name": "[concat(parameters('dbName'), parameters('environment'))]",
             "location": "East US",
             "tags": {
                 "defaultExperience": "Core (SQL)",
