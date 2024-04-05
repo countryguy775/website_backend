@@ -61,8 +61,6 @@
                 "enabledState": "Enabled"
             }
         },
-        
-        
         {
             "type": "Microsoft.Cdn/profiles/customdomains",
             "apiVersion": "2022-11-01-preview",
