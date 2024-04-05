@@ -19,6 +19,9 @@
         },
         "dnszones_externalid": {
             "type": "string"
+        },
+        "dbName": {
+            "type": "string"
         }
     },
     "variables": {

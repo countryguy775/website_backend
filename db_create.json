@@ -2,9 +2,26 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "databaseAccounts_webdb_name": {
-            "defaultValue": "webdb",
-            "type": "String"
+        "appLocation": {
+            "type": "string"
+        },
+        "appName": {
+            "type": "string"
+        },
+        "environment": {
+            "type": "string"
+        },
+        "indexDocument": {
+            "type": "string"
+        },
+        "errorDocument404Path": {
+            "type": "string"
+        },
+        "dnszones_externalid": {
+            "type": "string"
+        },
+        "dbName": {
+            "type": "string"
         }
     },
     "variables": {},
@@ -12,7 +29,7 @@
         {
             "type": "Microsoft.DocumentDB/databaseAccounts",
             "apiVersion": "2023-11-15",
-            "name": "[parameters('databaseAccounts_webdb_name')]",
+            "name": "[parameters('dbName')]",
             "location": "East US",
             "tags": {
                 "defaultExperience": "Core (SQL)",
@@ -78,9 +95,9 @@
         {
             "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
             "apiVersion": "2023-11-15",
-            "name": "[concat(parameters('databaseAccounts_webdb_name'), '/VisitCount')]",
+            "name": "[concat(parameters('dbName'), '/VisitCount')]",
             "dependsOn": [
-                "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_webdb_name'))]"
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('dbName'))]"
             ],
             "properties": {
                 "resource": {
@@ -91,15 +108,15 @@
         {
             "type": "Microsoft.DocumentDB/databaseAccounts/sqlRoleDefinitions",
             "apiVersion": "2023-11-15",
-            "name": "[concat(parameters('databaseAccounts_webdb_name'), '/00000000-0000-0000-0000-000000000001')]",
+            "name": "[concat(parameters('dbName'), '/00000000-0000-0000-0000-000000000001')]",
             "dependsOn": [
-                "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_webdb_name'))]"
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('dbName'))]"
             ],
             "properties": {
                 "roleName": "Cosmos DB Built-in Data Reader",
                 "type": "BuiltInRole",
                 "assignableScopes": [
-                    "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_webdb_name'))]"
+                    "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('dbName'))]"
                 ],
                 "permissions": [
                     {
@@ -117,15 +134,15 @@
         {
             "type": "Microsoft.DocumentDB/databaseAccounts/sqlRoleDefinitions",
             "apiVersion": "2023-11-15",
-            "name": "[concat(parameters('databaseAccounts_webdb_name'), '/00000000-0000-0000-0000-000000000002')]",
+            "name": "[concat(parameters('dbName'), '/00000000-0000-0000-0000-000000000002')]",
             "dependsOn": [
-                "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_webdb_name'))]"
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('dbName'))]"
             ],
             "properties": {
                 "roleName": "Cosmos DB Built-in Data Contributor",
                 "type": "BuiltInRole",
                 "assignableScopes": [
-                    "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_webdb_name'))]"
+                    "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('dbName'))]"
                 ],
                 "permissions": [
                     {
@@ -142,10 +159,10 @@
         {
             "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
             "apiVersion": "2023-11-15",
-            "name": "[concat(parameters('databaseAccounts_webdb_name'), '/VisitCount/Visits')]",
+            "name": "[concat(parameters('dbName'), '/VisitCount/Visits')]",
             "dependsOn": [
-                "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', parameters('databaseAccounts_webdb_name'), 'VisitCount')]",
-                "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_webdb_name'))]"
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', parameters('dbName'), 'VisitCount')]",
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('dbName'))]"
             ],
             "properties": {
                 "resource": {
