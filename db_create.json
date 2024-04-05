@@ -11,6 +11,12 @@
         "environment": {
             "type": "string"
         },
+        "indexDocument": {
+            "type": "string"
+        },
+        "errorDocument404Path": {
+            "type": "string"
+        },
         "dnszones_externalid": {
             "type": "string"
         },
