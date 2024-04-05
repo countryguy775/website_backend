@@ -26,6 +26,16 @@
     },
     "resources": [
         {
+            "type": "Microsoft.Network/dnsZones/CNAME",
+            "apiVersion": "2018-05-01",
+            "name": "create_cname",
+            "properties": {
+                "CNAMERecord": {
+                    "cname": "dev"
+                }
+            }
+        },
+        {
             "type": "Microsoft.Cdn/profiles",
             "apiVersion": "2022-11-01-preview",
             "name": "[variables('profileName')]",
