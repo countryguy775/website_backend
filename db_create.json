@@ -24,12 +24,14 @@
             "type": "string"
         }
     },
-    "variables": {},
+    "variables": {
+        "fulldbName": "[concat(parameters('dbName'), parameters('environment'))]"
+    },
     "resources": [
         {
             "type": "Microsoft.DocumentDB/databaseAccounts",
             "apiVersion": "2023-11-15",
-            "name": "[concat(parameters('dbName'), parameters('environment'))]",
+            "name": "[variables('fulldbName')]",
             "location": "East US",
             "tags": {
                 "defaultExperience": "Core (SQL)",
@@ -90,6 +92,19 @@
                     "totalThroughputLimit": 4000
                 },
                 "keysMetadata": {}
+            }
+        },
+        {
+            "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
+            "apiVersion": "2023-11-15",
+            "name": "[concat(variables('fulldbName'), '/VisitCount')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts', variables('fulldbName'))]"
+            ],
+            "properties": {
+                "resource": {
+                    "id": "VisitCount"
+                }
             }
         }
     ]
