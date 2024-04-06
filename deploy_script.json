@@ -47,8 +47,7 @@
                 "principalType": "ServicePrincipal"
             },
             "dependsOn": [
-                "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', 'ScriptRunner')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
+                "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', 'ScriptRunner')]"
             ]
         },
         {
@@ -62,8 +61,7 @@
                 "principalType": "ServicePrincipal"
             },
             "dependsOn": [
-                "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', 'ScriptRunner')]",
-                "[resourceId('Microsoft.Cdn/profiles', variables('profileName'))]"
+                "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', 'ScriptRunner')]"
             ]
         },
         {
