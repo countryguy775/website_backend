@@ -25,8 +25,7 @@
         }
     },
     "variables": {
-        "resourceGroupName": "[concat(parameters('appName'), '-', parameters('environment'), '-rg')]",
-        "storageAccountName": "[concat(parameters('appName'), parameters('environment'), 'storage')]"
+        "resourceGroupName": "[concat(parameters('appName'), '-', parameters('environment'), '-rg')]"
     },
     "resources": [
         {
@@ -84,6 +83,22 @@
                 "uri": "https://raw.githubusercontent.com/countryguy775/website_backend/main/azuredeploy.parameters.json"
             }
         }
-       }
+       },
+     {
+        "name": "deploy_script",
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2022-09-01",
+        "resourceGroup": "[variables('resourceGroupName')]",
+        "properties": {
+            "mode": "Incremental",
+            "templateLink": {
+                "uri": "https://raw.githubusercontent.com/countryguy775/website_backend/main/deploy_script.json",
+                "contentVersion": "1.0.0.0"
+            },
+            "parametersLink": {
+                "uri": "https://raw.githubusercontent.com/countryguy775/website_backend/main/azuredeploy.parameters.json"
+            }
+        }
+     }
     ]
   }
