@@ -97,6 +97,7 @@
         "name": "deploy_script",
         "type": "Microsoft.Resources/deployments",
         "apiVersion": "2022-09-01",
+        "resourceGroup": "[variables('resourceGroupName')]",
         "properties": {
             "mode": "Incremental",
             "templateLink": {
