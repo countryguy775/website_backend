@@ -127,7 +127,10 @@
                         "value": "[variables('endPointName')]"
                     }
                 ]
-            }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', 'ScriptRunner')]"
+            ]
         }
     ]
 }
