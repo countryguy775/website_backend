@@ -22,6 +22,9 @@
         },
         "dbName": {
             "value": "webdb"
+        },
+        "testref": {
+            "value": "temp"
         }
     }
 }

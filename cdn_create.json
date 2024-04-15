@@ -22,6 +22,10 @@
         },
         "dbName": {
             "type": "string"
+        },
+        "testref": {
+            "type": "string",
+            "defaultValue": "[reference('deploy_storage').outputs.storageEndpoint.value]"
         }
     },
     "variables": {
@@ -109,7 +113,7 @@
                 "[resourceId('Microsoft.Resources/deployments', 'deploy_storage')]"
             ],
             "properties": {
-                "hostName": "[reference('deploy_storage').outputs.storageEndpoint.value]",
+                "hostName": "[parameters('testref')]",
                 "httpPort": 80,
                 "httpsPort": 443,
                 "enabledState": "Enabled",

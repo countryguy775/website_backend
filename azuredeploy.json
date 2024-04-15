@@ -22,6 +22,9 @@
         },
         "dbName": {
             "type": "string"
+        },
+        "testref": {
+            "type": "string"
         }
     },
     "variables": {
