@@ -97,8 +97,7 @@
                     $storageAccount = Get-AzStorageAccount -ResourceGroupName $env:resourceGroupName -AccountName $env:storageAccountName\n
                     $ctx = $storageAccount.Context\n
                     Enable-AzStorageStaticWebsite -Context $ctx -IndexDocument $env:indexDocument -ErrorDocument404Path $env:errorDocument404Path\n
-                    $customDomainHttpsParameter = New-AzFrontDoorManagedHttpsParametersObject -CertificateSourceParameterCertificateType Dedicated -CertificateSource Cdn -ProtocolType ServerNameIndication\n
-                    Enable-AzFrontDoorCustomDomainCustomHttps -ResourceGroupName $env:resourceGroupName -ProfileName $env:cdnProfileName -EndpointName $env:endpointName -CustomDomainName dev-thehodgesfamily-net -CustomDomainHttpsParameter $customDomainHttpsParameter\n
+                    
                 ",
                 "retentionInterval": "PT4H",
                 "environmentVariables": [
