@@ -129,9 +129,23 @@
                     "uri": "https://raw.githubusercontent.com/countryguy775/website_backend/main/deploy_script.json",
                     "contentVersion": "1.0.0.0"
                 },
-                "parametersLink": {
-                        "uri": "https://raw.githubusercontent.com/countryguy775/website_backend/main/azuredeploy.parameters.json"
+                "parameters": {
+                    "appLocation": {
+                        "value": "[parameters('appLocation')]"
+                    },
+                    "appName": {
+                        "value": "[parameters('appName')]"
+                    },
+                    "environment": {
+                        "value": "[parameters('environment')]"
+                    },
+                    "indexDocument": {
+                        "value": "[parameters('indexDocument')]"
+                    },
+                    "errorDocument404Path": {
+                        "value": "[parameters('errorDocument404Path')]"
                     }
+                }
             },
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/resourceGroups', variables('resourceGroupName'))]"
