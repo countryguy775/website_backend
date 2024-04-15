@@ -105,8 +105,13 @@
                     "uri": "https://raw.githubusercontent.com/countryguy775/website_backend/main/db_create.json",
                     "contentVersion": "1.0.0.0"
                 },
-                "parametersLink": {
-                    "uri": "https://raw.githubusercontent.com/countryguy775/website_backend/main/azuredeploy.parameters.json"
+                "parameters": {
+                    "environment": {
+                        "value": "[parameters('environment')]"
+                    },
+                    "dbname": {
+                        "value": "[parameters('dbName')]"
+                    }
                 }
             },
             "dependsOn": [
