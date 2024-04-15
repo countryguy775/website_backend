@@ -24,7 +24,7 @@
             "value": "webdb"
         },
         "storageEndpoint": {
-            "value": "temp"
+            "value": "mlhwebsitedevstorage.z13.web.core.windows.net"
         }
     }
 }
