@@ -32,9 +32,7 @@
             "name": "[variables('resourceGroupName')]",
             "type": "Microsoft.Resources/resourceGroups",
             "apiVersion": "2022-09-01",
-            "location": "[parameters('appLocation')]",
-            "dependsOn": [],
-            "tags": {}
+            "location": "[parameters('appLocation')]"
         },
         {
             "name": "deploy_storage",
@@ -93,24 +91,30 @@
                 "[resourceId('Microsoft.Resources/resourceGroups', variables('resourceGroupName'))]"
             ]
         },
-     {
-        "name": "deploy_script",
-        "type": "Microsoft.Resources/deployments",
-        "apiVersion": "2022-09-01",
-        "resourceGroup": "[variables('resourceGroupName')]",
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": {
-                "uri": "https://raw.githubusercontent.com/countryguy775/website_backend/main/deploy_script.json",
-                "contentVersion": "1.0.0.0"
+        {
+            "name": "deploy_script",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "resourceGroup": "[variables('resourceGroupName')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/countryguy775/website_backend/main/deploy_script.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parametersLink": {
+                        "uri": "https://raw.githubusercontent.com/countryguy775/website_backend/main/azuredeploy.parameters.json"
+                    }
             },
-            "parametersLink": {
-                    "uri": "https://raw.githubusercontent.com/countryguy775/website_backend/main/azuredeploy.parameters.json"
-                }
-        },
-        "dependsOn": [
-            "[resourceId('Microsoft.Resources/resourceGroups', variables('resourceGroupName'))]"
-        ]
-     }
-    ]
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/resourceGroups', variables('resourceGroupName'))]"
+            ]
+        }
+    ],
+    "outputs": {
+        "storageEndpoint": {
+            "type": "string",
+            "value": "[reference('deploy_storage').outputs.storageEndpoint.value]"
+        }
+    }
   }

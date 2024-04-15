@@ -25,7 +25,12 @@
         }
     },
     "variables": {
-        "profileName": "[concat(parameters('appName'), '-cdn')]"
+        "profileName": "[concat(parameters('appName'), '-cdn')]",
+        "origingroupName": "[concat(parameters('environment'), '-origin-group')]",
+        "originName": "[concat(parameters('environment'), '-origin')]",
+        "customdomainName": "[concat(parameters('environment'), '-thehodgesfamily-net')]",
+        "customhostName": "[concat(parameters('environment'), '.thehodgesfamily.net')]",
+        "routeName": "[concat(parameters('environment'), '-route')]" 
     },
     "resources": [
         {
@@ -57,7 +62,7 @@
         {
             "type": "Microsoft.Cdn/profiles/origingroups",
             "apiVersion": "2022-11-01-preview",
-            "name": "[concat(variables('profileName'), '/dev-origin-group')]",
+            "name": "[concat(variables('profileName'), '/', variables('origingroupName'))]",
             "dependsOn": [
                 "[resourceId('Microsoft.Cdn/profiles', variables('profileName'))]"
             ],
@@ -79,12 +84,12 @@
         {
             "type": "Microsoft.Cdn/profiles/customdomains",
             "apiVersion": "2022-11-01-preview",
-            "name": "[concat(variables('profileName'), '/dev-thehodgesfamily-net')]",
+            "name": "[concat(variables('profileName'), '/', variables('customdomainName'))]",
             "dependsOn": [
                 "[resourceId('Microsoft.Cdn/profiles', variables('profileName'))]"
             ],
             "properties": {
-                "hostName": "dev.thehodgesfamily.net",
+                "hostName": "[variables('customhostName')]",
                 "tlsSettings": {
                     "certificateType": "ManagedCertificate",
                     "minimumTlsVersion": "TLS12"
@@ -97,13 +102,14 @@
         {
             "type": "Microsoft.Cdn/profiles/origingroups/origins",
             "apiVersion": "2022-11-01-preview",
-            "name": "[concat(variables('profileName'), '/dev-origin-group/dev-origin')]",
+            "name": "[concat(variables('profileName'), '/', variables('origingroupName'), '/', variables('originName'))]",
             "dependsOn": [
-                "[resourceId('Microsoft.Cdn/profiles/origingroups', variables('profileName'), 'dev-origin-group')]",
-                "[resourceId('Microsoft.Cdn/profiles', variables('profileName'))]"
+                "[resourceId('Microsoft.Cdn/profiles/origingroups', variables('profileName'), variables('origingroupName'))]",
+                "[resourceId('Microsoft.Cdn/profiles', variables('profileName'))]",
+                "[resourceId('Microsoft.Resources/deployments', 'deploy_storage')]"
             ],
             "properties": {
-                "hostName": "mlhwebsitedevstorage.z13.web.core.windows.net",
+                "hostName": "[reference('deploy_storage').outputs.storageEndpoint.value]",
                 "httpPort": 80,
                 "httpsPort": 443,
                 "enabledState": "Enabled",
@@ -113,21 +119,21 @@
         {
             "type": "Microsoft.Cdn/profiles/afdendpoints/routes",
             "apiVersion": "2022-11-01-preview",
-            "name": "[concat(variables('profileName'), '/thehodgesfamily/dev-route')]",
+            "name": "[concat(variables('profileName'), '/thehodgesfamily/', variables('routeName'))]",
             "dependsOn": [
                 "[resourceId('Microsoft.Cdn/profiles/afdendpoints', variables('profileName'), 'thehodgesfamily')]",
                 "[resourceId('Microsoft.Cdn/profiles', variables('profileName'))]",
-                "[resourceId('Microsoft.Cdn/profiles/customdomains', variables('profileName'), 'dev-thehodgesfamily-net')]",
-                "[resourceId('Microsoft.Cdn/profiles/origingroups', variables('profileName'), 'dev-origin-group')]"
+                "[resourceId('Microsoft.Cdn/profiles/customdomains', variables('profileName'), variables('customdomainName'))]",
+                "[resourceId('Microsoft.Cdn/profiles/origingroups', variables('profileName'), variables('origingroupName'))]"
             ],
             "properties": {
                 "customDomains": [
                     {
-                        "id": "[resourceId('Microsoft.Cdn/profiles/customdomains', variables('profileName'), 'dev-thehodgesfamily-net')]"
+                        "id": "[resourceId('Microsoft.Cdn/profiles/customdomains', variables('profileName'), variables('customdomainName'))]"
                     }
                 ],
                 "originGroup": {
-                    "id": "[resourceId('Microsoft.Cdn/profiles/origingroups', variables('profileName'), 'dev-origin-group')]"
+                    "id": "[resourceId('Microsoft.Cdn/profiles/origingroups', variables('profileName'), variables('origingroupName'))]"
                 },
                 "ruleSets": [],
                 "supportedProtocols": [

@@ -42,5 +42,11 @@
             "tier": "Standard"
         }
      }
-    ]
+    ],
+    "outputs": {
+        "storageEndpoint": {
+            "type": "string",
+            "value": "[reference(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))).primaryEndpoints.web]"
+        }
+    }
 }
