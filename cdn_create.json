@@ -109,6 +109,39 @@
                 "enabledState": "Enabled",
                 "enforceCertificateNameCheck": true
             }
+        },
+        {
+            "type": "Microsoft.Cdn/profiles/afdendpoints/routes",
+            "apiVersion": "2022-11-01-preview",
+            "name": "[concat(variables('profileName'), '/thehodgesfamily/dev-route')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Cdn/profiles/afdendpoints', variables('profileName'), 'thehodgesfamily')]",
+                "[resourceId('Microsoft.Cdn/profiles', variables('profileName'))]",
+                "[resourceId('Microsoft.Cdn/profiles/customdomains', variables('profileName'), 'dev-thehodgesfamily-net')]",
+                "[resourceId('Microsoft.Cdn/profiles/origingroups', variables('profileName'), 'dev-origin-group')]"
+            ],
+            "properties": {
+                "customDomains": [
+                    {
+                        "id": "[resourceId('Microsoft.Cdn/profiles/customdomains', variables('profileName'), 'dev-thehodgesfamily-net')]"
+                    }
+                ],
+                "originGroup": {
+                    "id": "[resourceId('Microsoft.Cdn/profiles/origingroups', variables('profileName'), 'dev-origin-group')]"
+                },
+                "ruleSets": [],
+                "supportedProtocols": [
+                    "Http",
+                    "Https"
+                ],
+                "patternsToMatch": [
+                    "/*"
+                ],
+                "forwardingProtocol": "MatchRequest",
+                "linkToDefaultDomain": "Enabled",
+                "httpsRedirect": "Enabled",
+                "enabledState": "Enabled"
+            }
         }
     ]
 }
