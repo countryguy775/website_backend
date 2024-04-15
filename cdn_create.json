@@ -55,6 +55,28 @@
             }
         },
         {
+            "type": "Microsoft.Cdn/profiles/origingroups",
+            "apiVersion": "2022-11-01-preview",
+            "name": "[concat(variables('profileName'), '/dev-origin-group')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Cdn/profiles', variables('profileName'))]"
+            ],
+            "properties": {
+                "loadBalancingSettings": {
+                    "sampleSize": 4,
+                    "successfulSamplesRequired": 3,
+                    "additionalLatencyInMilliseconds": 50
+                },
+                "healthProbeSettings": {
+                    "probePath": "/",
+                    "probeRequestType": "HEAD",
+                    "probeProtocol": "Http",
+                    "probeIntervalInSeconds": 100
+                },
+                "sessionAffinityState": "Disabled"
+            }
+        },
+        {
             "type": "Microsoft.Cdn/profiles/customdomains",
             "apiVersion": "2022-11-01-preview",
             "name": "[concat(variables('profileName'), '/dev-thehodgesfamily-net')]",
