@@ -23,7 +23,7 @@
         "dbName": {
             "type": "string"
         },
-        "testref": {
+        "storageEndpoint": {
             "type": "string"
         }
     },
@@ -67,9 +67,17 @@
                     "uri": "https://raw.githubusercontent.com/countryguy775/website_backend/main/cdn_create.json",
                     "contentVersion": "1.0.0.0"
                 },
-                "parametersLink": {
-                        "uri": "https://raw.githubusercontent.com/countryguy775/website_backend/main/azuredeploy.parameters.json"
+                "parameters": {
+                    "appName": {
+                        "value": "[parameters('appName')]"
+                    },
+                    "environment": {
+                        "value": "[parameters('environment')]"
+                    },
+                    "dnszones_externalid": {
+                        "value": "[parameters('dnszones_externalid')]"
                     }
+                }
             },
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/resourceGroups', variables('resourceGroupName'))]"

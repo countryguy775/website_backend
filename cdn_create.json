@@ -2,30 +2,17 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "appLocation": {
-            "type": "string"
-        },
         "appName": {
             "type": "string"
         },
         "environment": {
             "type": "string"
         },
-        "indexDocument": {
-            "type": "string"
-        },
-        "errorDocument404Path": {
-            "type": "string"
-        },
         "dnszones_externalid": {
             "type": "string"
         },
-        "dbName": {
+        "storageEndpoint": {
             "type": "string"
-        },
-        "testref": {
-            "type": "string",
-            "defaultValue": "[reference('deploy_storage').outputs.storageEndpoint.value]"
         }
     },
     "variables": {
@@ -113,7 +100,7 @@
                 "[resourceId('Microsoft.Resources/deployments', 'deploy_storage')]"
             ],
             "properties": {
-                "hostName": "[parameters('testref')]",
+                "hostName": "[parameters('storageEndpoint')]",
                 "httpPort": 80,
                 "httpsPort": 443,
                 "enabledState": "Enabled",

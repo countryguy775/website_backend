@@ -23,7 +23,7 @@
         "dbName": {
             "value": "webdb"
         },
-        "testref": {
+        "storageEndpoint": {
             "value": "temp"
         }
     }
