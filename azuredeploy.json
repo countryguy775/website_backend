@@ -84,6 +84,9 @@
                     },
                     "dnszones_externalid": {
                         "value": "[parameters('dnszones_externalid')]"
+                    },
+                    "storageEndpoint": {
+                        "value": "[reference('deploy_storage').outputs.storageEndpoint.value]"
                     }
                 }
             },
