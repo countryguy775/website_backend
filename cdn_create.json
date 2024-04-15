@@ -96,8 +96,7 @@
             "name": "[concat(variables('profileName'), '/', variables('origingroupName'), '/', variables('originName'))]",
             "dependsOn": [
                 "[resourceId('Microsoft.Cdn/profiles/origingroups', variables('profileName'), variables('origingroupName'))]",
-                "[resourceId('Microsoft.Cdn/profiles', variables('profileName'))]",
-                "[resourceId('Microsoft.Resources/deployments', 'deploy_storage')]"
+                "[resourceId('Microsoft.Cdn/profiles', variables('profileName'))]"
             ],
             "properties": {
                 "hostName": "[parameters('storageEndpoint')]",
