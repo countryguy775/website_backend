@@ -16,8 +16,12 @@
         {
             "type": "Microsoft.DocumentDB/databaseAccounts",
             "apiVersion": "2023-11-15",
-            "name": "[variables('fulldbName')]",
-            "location": "[resourceGroup().location]",
+            "name": "[concat(parameters('dbName'), parameters('environment'))]",
+            "location": "East US",
+            "tags": {
+                "defaultExperience": "Core (SQL)",
+                "hidden-cosmos-mmspecial": ""
+            },
             "kind": "GlobalDocumentDB",
             "identity": {
                 "type": "None"
@@ -37,9 +41,6 @@
                 "databaseAccountOfferType": "Standard",
                 "defaultIdentity": "FirstPartyIdentity",
                 "networkAclBypass": "None",
-                "disableLocalAuth": false,
-                "enablePartitionMerge": false,
-                "enableBurstCapacity": false,
                 "minimalTlsVersion": "Tls12",
                 "consistencyPolicy": {
                     "defaultConsistencyLevel": "Session",
@@ -48,6 +49,8 @@
                 },
                 "locations": [
                     {
+                        "locationName": "East US",
+                        "provisioningState": "Succeeded",
                         "failoverPriority": 0,
                         "isZoneRedundant": false
                     }
