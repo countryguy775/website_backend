@@ -2,6 +2,9 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "appLocation": {
+            "type": "string"
+        },
         "environment": {
             "type": "string"
         },
@@ -17,11 +20,7 @@
             "type": "Microsoft.DocumentDB/databaseAccounts",
             "apiVersion": "2023-11-15",
             "name": "[variables('fulldbName')]",
-            "location": "East US",
-            "tags": {
-                "defaultExperience": "Core (SQL)",
-                "hidden-cosmos-mmspecial": ""
-            },
+            "location": "[parameters('appLocation')]",
             "kind": "GlobalDocumentDB",
             "identity": {
                 "type": "None"
@@ -31,7 +30,6 @@
                 "enableAutomaticFailover": false,
                 "enableMultipleWriteLocations": false,
                 "isVirtualNetworkFilterEnabled": false,
-                "virtualNetworkRules": [],
                 "disableKeyBasedMetadataWriteAccess": false,
                 "enableFreeTier": false,
                 "enableAnalyticalStorage": false,
@@ -53,8 +51,6 @@
                 },
                 "locations": [
                     {
-                        "locationName": "East US",
-                        "provisioningState": "Succeeded",
                         "failoverPriority": 0,
                         "isZoneRedundant": false
                     }
@@ -65,18 +61,15 @@
                         "name": "EnableServerless"
                     }
                 ],
-                "ipRules": [],
                 "backupPolicy": {
                     "type": "Continuous",
                     "continuousModeProperties": {
                         "tier": "Continuous7Days"
                     }
                 },
-                "networkAclBypassResourceIds": [],
                 "capacity": {
                     "totalThroughputLimit": 4000
-                },
-                "keysMetadata": {}
+                }
             }
         },
         {

@@ -22,9 +22,6 @@
         },
         "dbName": {
             "type": "string"
-        },
-        "storageEndpoint": {
-            "type": "string"
         }
     },
     "variables": {
@@ -91,7 +88,8 @@
                 }
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Resources/resourceGroups', variables('resourceGroupName'))]"
+                "[resourceId('Microsoft.Resources/resourceGroups', variables('resourceGroupName'))]",
+                "[resourceId('Microsoft.Resources/deployments', 'deploy_storage')]"
             ]
         },
         {
@@ -106,6 +104,9 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "appLocation": {
+                        "value": "[parameters('appLocation')]"
+                    },
                     "environment": {
                         "value": "[parameters('environment')]"
                     },
@@ -148,7 +149,9 @@
                 }
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Resources/resourceGroups', variables('resourceGroupName'))]"
+                "[resourceId('Microsoft.Resources/resourceGroups', variables('resourceGroupName'))]",
+                "[resourceId('Microsoft.Resources/deployments', 'deploy_storage')]",
+                "[resourceId('Microsoft.Resources/deployments', 'deploy_cdn')]"
             ]
         }
     ]

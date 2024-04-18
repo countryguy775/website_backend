@@ -22,9 +22,6 @@
         },
         "dbName": {
             "value": "webdb"
-        },
-        "storageEndpoint": {
-            "value": "mlhwebsitedevstorage.z13.web.core.windows.net"
         }
     }
 }
