@@ -154,8 +154,7 @@
     ],
     "outputs": {
         "storageEndpoint": {
-            "type": "string",
-            "value": "[reference('deploy_storage').outputs.storageEndpoint]"
+            "type": "string"
         }
     }
   }
