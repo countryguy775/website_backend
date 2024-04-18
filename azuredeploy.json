@@ -86,7 +86,7 @@
                         "value": "[parameters('dnszones_externalid')]"
                     },
                     "storageEndpoint": {
-                        "value": "[parameters('storageEndpoint')]"
+                        "value": "[reference('deploy_storage').outputs.storageEndpoint.web]"
                     }
                 }
             },
@@ -151,10 +151,5 @@
                 "[resourceId('Microsoft.Resources/resourceGroups', variables('resourceGroupName'))]"
             ]
         }
-    ],
-    "outputs": {
-        "storageEndpoint": {
-            "type": "string"
-        }
-    }
+    ]
   }
