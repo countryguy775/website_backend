@@ -151,5 +151,11 @@
                 "[resourceId('Microsoft.Resources/resourceGroups', variables('resourceGroupName'))]"
             ]
         }
-    ]
+    ],
+    "outputs": {
+        "storageEndpoint": {
+            "type": "string",
+            "value": "[reference('deploy_storage').outputs.storageEndpoint.web]"
+        }
+    }
   }
