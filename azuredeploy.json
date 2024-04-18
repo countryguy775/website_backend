@@ -88,7 +88,8 @@
                 }
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Resources/resourceGroups', variables('resourceGroupName'))]"
+                "[resourceId('Microsoft.Resources/resourceGroups', variables('resourceGroupName'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', reference('deploy_storage').outputs.storageName.value)]"
             ]
         },
         {

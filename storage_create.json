@@ -32,6 +32,10 @@
      }
     ],
     "outputs": {
+        "storageName": {
+            "type": "string",
+            "value": "[variables('storageAccountName')]"
+        },
         "storageEndpoint": {
             "type": "string",
             "value": "[reference(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))).primaryEndpoints.web]"
