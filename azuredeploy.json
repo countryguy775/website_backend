@@ -103,9 +103,6 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
-                    "appLocation": {
-                        "value": "[parameters('appLocation')]"
-                    },
                     "environment": {
                         "value": "[parameters('environment')]"
                     },
