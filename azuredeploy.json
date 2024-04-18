@@ -88,8 +88,7 @@
                 }
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Resources/resourceGroups', variables('resourceGroupName'))]",
-                "[resourceId('Microsoft.Resources/deployments', 'deploy_storage')]"
+                "[resourceId('Microsoft.Resources/resourceGroups', variables('resourceGroupName'))]"
             ]
         },
         {
@@ -149,9 +148,7 @@
                 }
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Resources/resourceGroups', variables('resourceGroupName'))]",
-                "[resourceId('Microsoft.Resources/deployments', 'deploy_storage')]",
-                "[resourceId('Microsoft.Resources/deployments', 'deploy_cdn')]"
+                "[resourceId('Microsoft.Resources/resourceGroups', variables('resourceGroupName'))]"
             ]
         }
     ]
