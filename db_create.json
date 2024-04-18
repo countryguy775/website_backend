@@ -17,30 +17,15 @@
             "type": "Microsoft.DocumentDB/databaseAccounts",
             "apiVersion": "2023-11-15",
             "name": "[concat(parameters('dbName'), parameters('environment'))]",
-            "location": "East US",
-            "tags": {
-                "defaultExperience": "Core (SQL)",
-                "hidden-cosmos-mmspecial": ""
-            },
+            "location": "[resourceGroup().location]",
             "kind": "GlobalDocumentDB",
             "identity": {
                 "type": "None"
             },
             "properties": {
                 "publicNetworkAccess": "Enabled",
-                "enableAutomaticFailover": false,
-                "enableMultipleWriteLocations": false,
-                "isVirtualNetworkFilterEnabled": false,
-                "disableKeyBasedMetadataWriteAccess": false,
-                "enableFreeTier": false,
-                "enableAnalyticalStorage": false,
-                "analyticalStorageConfiguration": {
-                    "schemaType": "WellDefined"
-                },
-                "createMode": "Default",
                 "databaseAccountOfferType": "Standard",
                 "defaultIdentity": "FirstPartyIdentity",
-                "networkAclBypass": "None",
                 "minimalTlsVersion": "Tls12",
                 "consistencyPolicy": {
                     "defaultConsistencyLevel": "Session",
@@ -49,7 +34,7 @@
                 },
                 "locations": [
                     {
-                        "locationName": "East US",
+                        "locationName": "[resourceGroup().location]",
                         "provisioningState": "Succeeded",
                         "failoverPriority": 0,
                         "isZoneRedundant": false
