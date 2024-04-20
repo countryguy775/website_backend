@@ -10,7 +10,7 @@
         }
     },
     "variables": {
-        "rgName": "[concat(parameters('appName'), parameters('environment'), '-rg')]"
+        "rgName": "[concat(parameters('appName'), '-', parameters('environment'), '-rg')]"
     },
     "resources": [
         {
@@ -19,5 +19,11 @@
             "name": "[variables('rgName')]",
             "location": "eastus"
         }
-    ]
+    ],
+    "outputs": {
+        "rgName": {
+            "type": "string",
+            "value": "[variables('rgName')]"
+        }
+    }
 }
