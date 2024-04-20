@@ -2,6 +2,9 @@ name: Website Deployment
 
 on: [push]
 
+env:
+  location: eastus
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -15,13 +18,11 @@ jobs:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
           enable-AzPSSession: true
 
-      # Deploy ARM template
-      - name: Run ARM deploy
-        uses: azure/arm-deploy@v1
-        id: deploy
+      
+      
+      - name: Create rg
+        uses: azure/powershell@v1
         with:
-          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          region: eastus
-          template: ./azuredeploy.json
-          scope: subscription
-          parameters: ./azuredeploy.parameters.json
+          azPSVersion: 3.1.0,
+          inlineScript: |
+            New-AzResourceGroup -Name 'website-rg' -Location ${{ env.location }}
