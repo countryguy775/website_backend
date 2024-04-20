@@ -30,7 +30,6 @@ jobs:
           template: ./create_rg.json
           parameters: ./create_rg.parameters.json
 
-
       
 
   create-storage:
@@ -38,11 +37,10 @@ jobs:
     needs: create-rg
     steps:
       
-      - run: echo ${{steps.create_rg.outputs.rgName}}
       - name: Create Storage
         uses: azure/arm-deploy@v2
         with:
           scope: resourcegroup
-          resourceGroupName: ${{ steps.create_rg.outputs.rgName }}
+          resourceGroupName: ${{ needs.create-rg.outputs.rgName }}
           template: ./create_storage.json
           parameters: ./create_rg.parameters.json
