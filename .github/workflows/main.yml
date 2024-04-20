@@ -30,7 +30,7 @@ jobs:
           template: ./create_rg.json
           parameters: ./create_rg.parameters.json
 
-      - run: echo ${{steps.rg.outputs.rgName}}
+
       
 
   create-storage:
@@ -38,7 +38,7 @@ jobs:
     needs: create-rg
     steps:
       
-
+      - run: echo ${{steps.create_rg.outputs.rgName}}
       - name: Create Storage
         uses: azure/arm-deploy@v2
         with:
