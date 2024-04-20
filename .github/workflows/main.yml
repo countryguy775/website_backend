@@ -22,7 +22,7 @@ jobs:
       
       - name: Create rg
         id: rg
-        uses: azure/arm-deploy@v1
+        uses: azure/arm-deploy@v2
         with:
           scope: subscription
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
@@ -30,6 +30,7 @@ jobs:
           template: ./create_rg.json
           parameters: ./create_rg.parameters.json
 
+      - run: echo ${{steps.rg.outputs.rgName}}
       
 
   create-storage:
@@ -39,9 +40,9 @@ jobs:
       
 
       - name: Create Storage
-        uses: azure/arm-deploy@v1
+        uses: azure/arm-deploy@v2
         with:
           scope: resourcegroup
-          resourceGroupName: echo ${{ steps.create_rg.outputs.rgName }}
+          resourceGroupName: ${{ steps.create_rg.outputs.rgName }}
           template: ./create_storage.json
           parameters: ./create_rg.parameters.json
