@@ -21,9 +21,10 @@ jobs:
       
       
       - name: Create rg
-        uses: azure/powershell@v1
+        uses: azure/arm-deploy@v1
         with:
-          azPSVersion: 3.1.0,
-          inlineScript: |
-            import-module Az.Resources
-            New-AzResourceGroup -Name 'website-rg' -Location ${{ env.location }}
+          scope: subscription
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          region: ${{ env.location }}
+          template: ./create_rg.json
+          parameters: ./create_rg.parameters.json
