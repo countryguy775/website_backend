@@ -25,4 +25,5 @@ jobs:
         with:
           azPSVersion: 3.1.0,
           inlineScript: |
+            import-module Az.Resources
             New-AzResourceGroup -Name 'website-rg' -Location ${{ env.location }}
