@@ -42,6 +42,6 @@ jobs:
         uses: azure/arm-deploy@v1
         with:
           scope: resourcegroup
-          resourceGroupName: ${{ steps.create_rg.outputs.rgName }}
+          resourceGroupName: echo ${{ steps.create_rg.outputs.rgName }}
           template: ./create_storage.json
           parameters: ./create_rg.parameters.json
