@@ -1,0 +1,25 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "appName": {
+            "type": "string"
+        }
+    },
+    "variables": {
+        "profileName": "[concat(parameters('appName'), '-afd')]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Cdn/profiles",
+            "apiVersion": "2021-06-01",
+            "name": "[variables('profileName')]",
+            "location": "Global",
+            "sku": {
+                "name": "Standard_AzureFrontDoor"
+            },
+            "kind": "frontdoor",
+            "properties": {}
+        }
+    ]
+}
