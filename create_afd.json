@@ -7,11 +7,17 @@
         },
         "environment": {
             "type": "string"
+        },
+        "dnszones_externalid": {
+            "type": "string"
         }
     },
     "variables": {
         "profileName": "[concat(parameters('appName'), '-afd')]",
-        "originGroupName": "[concat(parameters('environment'), '-origin-group')]"
+        "originGroupName": "[concat(parameters('environment'), '-origin-group')]",
+        "customdomainName": "[concat(parameters('environment'), '-thehodgesfamily-net')]",
+        "customhostName": "[concat(parameters('environment'), '.thehodgesfamily.net')]",
+        "routeName": "[concat(parameters('environment'), '-route')]"
     },
     "resources": [
         {
@@ -44,6 +50,24 @@
                     "sampleSize": 4,
                     "successfulSamplesRequired": 3,
                     "additionalLatencyInMilliseconds": 50
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Cdn/profiles', variables('profileName'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Cdn/profiles/customDomains",
+            "apiVersion": "2021-06-01",
+            "name": "[concat(variables('profileName'), '/', variables('customdomainName'))]",
+            "properties": {
+                "hostName": "[variables('customhostName')]",
+                "tlsSettings": {
+                    "certificateType": "ManagedCertificate",
+                    "minimumTlsVersion": "TLS12"
+                },
+                "azureDnsZone": {
+                    "id": "[parameters('dnszones_externalid')]"
                 }
             },
             "dependsOn": [

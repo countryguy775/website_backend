@@ -9,7 +9,9 @@
             "type": "string"
         }
     },
-    "variables": {},
+    "variables": {
+        "fulldbName": "[concat(parameters('dbName'), parameters('environment'))]"
+    },
     "resources": [
         {
             "type": "Microsoft.DocumentDB/databaseAccounts",
@@ -40,6 +42,19 @@
                     }
                 }
             }
+        },
+        {
+            "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
+            "apiVersion": "2023-04-15",
+            "name": "[concat(variables('fulldbName'), '/VisitCount')]",
+            "properties": {
+                "resource": {
+                    "id": "VisitCount"
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts', variables('fulldbName'))]"
+            ]
         }
     ]
 }
