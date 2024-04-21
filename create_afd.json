@@ -20,6 +20,16 @@
             },
             "kind": "frontdoor",
             "properties": {}
+        },
+        {
+            "type": "Microsoft.Cdn/profiles/afdEndpoints",
+            "apiVersion": "2021-06-01",
+            "name": "[concat(variables('profileName'), '/thehodgesfamily')]",
+            "location": "Global",
+            "properties": {},
+            "dependsOn": [
+                "[resourceId('Microsoft.Cdn/profiles', variables('profileName'))]"
+            ]
         }
     ]
 }
