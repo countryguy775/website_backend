@@ -16,13 +16,15 @@
             "apiVersion": "2023-04-15",
             "name": "[concat(parameters('dbName'), parameters('environment'))]",
             "location": "[resourceGroup().location]",
+            "kind": "GlobalDocumentDB",
+            "identity": {
+                "type": "None"
+            },
             "properties": {
                 "databaseAccountOfferType": "Standard",
                 "locations": [
                     {
                         "locationName": "[resourceGroup().location]",
-                        "provisioningState": "Succeeded",
-                        "failoverPriority": 0,
                         "isZoneRedundant": false
                     }
                 ],

@@ -4,6 +4,9 @@
     "parameters": {
         "appName": {
             "value": "familywebsite"
+        },
+        "environment": {
+            "value": "dev"
         }
     }
 }
