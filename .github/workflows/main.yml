@@ -4,6 +4,8 @@ on: [push]
 
 env:
   location: eastus
+  appName: familywebsite
+  environ: dev
 
 jobs:
   create-rg:
@@ -73,7 +75,7 @@ jobs:
           scope: resourcegroup
           resourceGroupName: ${{needs.create-rg.outputs.rgName}}
           template: ./create_afd.json
-          parameters: ./create_afd.parameters.json
+          parameters: ./create_afd.parameters.json storageEndpoint=${{needs.create-storage.outputs.storageEndpoint}}
 
   create-db:
     runs-on: ubuntu-latest

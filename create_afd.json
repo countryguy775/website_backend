@@ -10,6 +10,9 @@
         },
         "dnszones_externalid": {
             "type": "string"
+        },
+        "storageEndpoint": {
+            "type": "string"
         }
     },
     "variables": {
@@ -17,6 +20,7 @@
         "originGroupName": "[concat(parameters('environment'), '-origin-group')]",
         "customdomainName": "[concat(parameters('environment'), '-thehodgesfamily-net')]",
         "customhostName": "[concat(parameters('environment'), '.thehodgesfamily.net')]",
+        "originName": "[concat(parameters('environment'), '-origin')]",
         "routeName": "[concat(parameters('environment'), '-route')]"
     },
     "resources": [
@@ -73,6 +77,19 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Cdn/profiles', variables('profileName'))]"
             ]
+        },
+        {
+            "type": "Microsoft.Cdn/profiles/originGroups/origins",
+            "apiVersion": "2021-06-01",
+            "name": "[concat(variables('profileName'), '/', variables('origingroupName'), '/', variables('originName'))]",
+            "properties": {
+                "hostName": "[parameters('storageEndpoint')]",
+                "httpPort": 80,
+                "httpsPort": 443,
+                "enabledState": "Enabled",
+                "enforceCertificateNameCheck": true
+            },
+            "dependsOn": []
         }
     ]
 }

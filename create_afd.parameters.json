@@ -10,6 +10,9 @@
         },
         "dnszones_externalid": {
             "value": "/subscriptions/2f9cc458-4951-43a4-8231-a7b3c75b5473/resourceGroups/Core_Services/providers/Microsoft.Network/dnszones/thehodgesfamily.net"
+        },
+        "storageEndpoint": {
+            "value": "default"
         }
     }
 }
