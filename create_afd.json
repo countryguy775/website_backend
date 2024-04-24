@@ -93,6 +93,38 @@
                 "[resourceId('Microsoft.Cdn/profiles', variables('profileName'))]",
                 "[resourceId('Microsoft.Cdn/profiles/originGroups', variables('profileName'), variables('originGroupName'))]"
             ]
+        },
+        {
+            "type": "Microsoft.Cdn/profiles/afdEndpoints/routes",
+            "apiVersion": "2021-06-01",
+            "name": "[concat(variables('profileName'), '/thehodgesfamily/', variables('routeName'))]",
+            "properties": {
+                "customDomains": [
+                    {
+                        "id": "[resourceId('Microsoft.Cdn/profiles/customdomains', variables('profileName'), variables('customdomainName'))]"
+                    }
+                ],
+                "originGroup": {
+                    "id": "[resourceId('Microsoft.Cdn/profiles/origingroups', variables('profileName'), variables('origingroupName'))]"
+                },
+                "supportedProtocols": [
+                    "Http",
+                    "Https"
+                ],
+                "patternsToMatch": [
+                    "/*"
+                ],
+                "forwardingProtocol": "MatchRequest",
+                "linkToDefaultDomain": "Enabled",
+                "httpsRedirect": "Enabled",
+                "enabledState": "Enabled"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Cdn/profiles', variables('profileName'))]",
+                "[resourceId('Microsoft.Cdn/profiles/afdEndpoints', variables('profileName'), 'thehodgesfamily')]",
+                "[resourceId('Microsoft.Cdn/profiles/originGroups', variables('profileName'), variables('originGroupName'))]",
+                "[resourceId('Microsoft.Cdn/profiles/customDomains', variables('profileName'), variables('customdomainName'))]"
+            ]
         }
     ]
 }
