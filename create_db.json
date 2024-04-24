@@ -16,7 +16,7 @@
         {
             "type": "Microsoft.DocumentDB/databaseAccounts",
             "apiVersion": "2023-04-15",
-            "name": "[concat(parameters('dbName'), parameters('environment'))]",
+            "name": "[variables('fulldbName')]",
             "location": "[resourceGroup().location]",
             "kind": "GlobalDocumentDB",
             "identity": {
@@ -55,6 +55,45 @@
             "dependsOn": [
                 "[resourceId('Microsoft.DocumentDB/databaseAccounts', variables('fulldbName'))]"
             ]
+        },
+        {
+            "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
+            "apiVersion": "2023-04-15",
+            "name": "[concat(variables('fulldbName'), '/VisitCount/Visits')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', variables('fulldbName'), 'VisitCount')]",
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts', variables('fulldbName'))]"
+            ],
+            "properties": {
+                "resource": {
+                    "id": "Visits",
+                    "indexingPolicy": {
+                        "indexingMode": "consistent",
+                        "automatic": true,
+                        "includedPaths": [
+                            {
+                                "path": "/*"
+                            }
+                        ],
+                        "excludedPaths": [
+                            {
+                                "path": "/\"_etag\"/?"
+                            }
+                        ]
+                    },
+                    "partitionKey": {
+                        "paths": [
+                            "/partitionKey"
+                        ],
+                        "kind": "Hash",
+                        "version": 2
+                    },
+                    "conflictResolutionPolicy": {
+                        "mode": "LastWriterWins",
+                        "conflictResolutionPath": "/_ts"
+                    }
+                }
+            }
         }
     ]
 }
