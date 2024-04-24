@@ -6,6 +6,8 @@ env:
   location: eastus
   appName: familywebsite
   environ: dev
+  indexDocument: 'index.html'
+  errorDocument404Path: 'error.html'
 
 jobs:
   create-rg:
@@ -116,7 +118,7 @@ jobs:
         with:
           inlineScript: |
             $ErrorActionPreference = 'Stop'
-            $storageAccount = Get-AzStorageAccount -ResourceGroupName $env:resourceGroupName -AccountName $env:storageAccountName
+            $storageAccount = Get-AzStorageAccount -ResourceGroupName ${{needs.create-rg.outputs.rgName}} -AccountName ${{needs.create-storage.outputs.storageName}}
             $ctx = $storageAccount.Context
             Enable-AzStorageStaticWebsite -Context $ctx -IndexDocument $env:indexDocument -ErrorDocument404Path $env:errorDocument404Path
           azPSVersion: "latest"
