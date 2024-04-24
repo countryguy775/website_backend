@@ -112,9 +112,11 @@ jobs:
           enable-AzPSSession: true
 
       - name: Enable Static Web
-        shell: pwsh
-        run: |
-          $ErrorActionPreference = 'Stop'
-          $storageAccount = Get-AzStorageAccount -ResourceGroupName $env:resourceGroupName -AccountName $env:storageAccountName
-          $ctx = $storageAccount.Context
-          Enable-AzStorageStaticWebsite -Context $ctx -IndexDocument $env:indexDocument -ErrorDocument404Path $env:errorDocument404Path
+        uses: azure/powershell@v1
+        with:
+          inlineScript: |
+            $ErrorActionPreference = 'Stop'
+            $storageAccount = Get-AzStorageAccount -ResourceGroupName $env:resourceGroupName -AccountName $env:storageAccountName
+            $ctx = $storageAccount.Context
+            Enable-AzStorageStaticWebsite -Context $ctx -IndexDocument $env:indexDocument -ErrorDocument404Path $env:errorDocument404Path
+          azPSVersion: "latest"
