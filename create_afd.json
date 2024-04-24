@@ -81,9 +81,9 @@
         {
             "type": "Microsoft.Cdn/profiles/originGroups/origins",
             "apiVersion": "2021-06-01",
-            "name": "[concat(variables('profileName'), '/', variables('origingroupName'), '/', variables('originName'))]",
+            "name": "[replace(substring(parameters('storageEndpoint'), 8, sub(length(parameters('storageEndpoint')), 9)), '.', '-')]",
             "properties": {
-                "hostName": "[parameters('storageEndpoint')]",
+                "hostName": "[substring(parameters('storageEndpoint'), 8, sub(length(parameters('storageEndpoint')), 9))]",
                 "httpPort": 80,
                 "httpsPort": 443,
                 "enabledState": "Enabled",
