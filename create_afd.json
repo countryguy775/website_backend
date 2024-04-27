@@ -126,5 +126,19 @@
                 "[resourceId('Microsoft.Cdn/profiles/customDomains', variables('profileName'), variables('customdomainName'))]"
             ]
         }
-    ]
+    ],
+    "outputs": {
+        "profileName": {
+            "type": "string",
+            "value": "[variables('profileName')]"
+        },
+        "customDomainName": {
+            "type": "string",
+            "value": "[variables('customdomainName')]"
+        },
+        "endpointName": {
+            "type": "string",
+            "value": "[reference(resourceId('Microsoft.Cdn/profiles/afdEndpoints', variables('profileName'), 'thehodgesfamily')).primaryEndpoints.hostName]"
+        }
+    }
 }

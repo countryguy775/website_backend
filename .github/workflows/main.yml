@@ -61,6 +61,10 @@ jobs:
   create-afd:
     runs-on: ubuntu-latest
     needs: [create-rg,create-storage]
+    outputs:
+      profileName: ${{steps.afd.outputs.profileName}}
+      customDomainName: ${{steps.afd.outputs.customDomainName}}
+      endpointName: ${{steps.afd.outputs.endpointName}}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -102,7 +106,7 @@ jobs:
 
   script:
     runs-on: ubuntu-latest
-    needs: [create-rg,create-storage]
+    needs: [create-rg,create-storage, create-afd]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -121,4 +125,6 @@ jobs:
             $storageAccount = Get-AzStorageAccount -ResourceGroupName ${{needs.create-rg.outputs.rgName}} -AccountName ${{needs.create-storage.outputs.storageName}}
             $ctx = $storageAccount.Context
             Enable-AzStorageStaticWebsite -Context $ctx -IndexDocument $env:indexDocument -ErrorDocument404Path $env:errorDocument404Path
+            $customDomainHttpsParameter = New-AzCdnManagedHttpsParametersObject -CertificateSourceParameterCertificateType Dedicated -CertificateSource Cdn -ProtocolType ServerNameIndication
+            Enable-AzCdnCustomDomainCustomHttps -ResourceGroupName ${{needs.create-rg.outputs.rgName}} -ProfileName ${{needs.create-afd.outputs.profileName}} -EndpointName ${{needs.create-storage.outputs.storageEndpoint}} -CustomDomainName ${{needs.create-afd.outputs.customDomainName}} -CustomDomainHttpsParameter $customDomainHttpsParameter
           azPSVersion: "latest"
