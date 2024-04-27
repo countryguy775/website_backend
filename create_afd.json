@@ -138,7 +138,7 @@
         },
         "endpointName": {
             "type": "string",
-            "value": "[reference(resourceId('Microsoft.Cdn/profiles/afdEndpoints', variables('profileName'), 'thehodgesfamily')).primaryEndpoints.hostName]"
+            "value": "[reference(resourceId('Microsoft.Cdn/profiles/afdEndpoints', variables('profileName'), 'thehodgesfamily')).hostName]"
         }
     }
 }
