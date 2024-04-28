@@ -18,10 +18,10 @@
             "apiVersion": "2018-05-01",
             "name": "[concat('thehodgesfamily.net', '/', parameters('environment'))]",
             "properties": {
+                "TTL": 3600,
                 "CNAMERecord": {
                     "cname": "[parameters('endpointName')]"
-                },
-                "targetResource": {}
+                }
             }
         }
     ]
