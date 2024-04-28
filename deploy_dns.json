@@ -1,7 +1,28 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {},
+    "parameters": {
+        "environment": {
+            "type": "string",
+            "defaultValue": "dev"
+        },
+        "endpointName": {
+            "type": "string",
+            "defaultValue": "test"
+        }
+    },
     "variables": {},
-    "resources": []
+    "resources": [
+        {
+            "type": "Microsoft.Network/dnszones/CNAME",
+            "apiVersion": "2018-05-01",
+            "name": "[concat('thehodgesfamily.net', '/', parameters('environment'))]",
+            "properties": {
+                "CNAMERecord": {
+                    "cname": "[parameters('endpointName')]"
+                }
+            },
+            "dependsOn": []
+        }
+    ]
 }

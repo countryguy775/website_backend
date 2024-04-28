@@ -106,7 +106,7 @@ jobs:
 
   script:
     runs-on: ubuntu-latest
-    needs: [create-rg,create-storage, create-afd]
+    needs: [create-rg,create-storage,create-afd]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -128,3 +128,24 @@ jobs:
             $customDomainHttpsParameter = New-AzCdnManagedHttpsParametersObject -CertificateSourceParameterCertificateType Dedicated -CertificateSource Cdn -ProtocolType ServerNameIndication
             Enable-AzCdnCustomDomainCustomHttps -ResourceGroupName ${{needs.create-rg.outputs.rgName}} -ProfileName ${{needs.create-afd.outputs.profileName}} -EndpointName ${{needs.create-storage.outputs.storageEndpoint}} -CustomDomainName ${{needs.create-afd.outputs.customDomainName}} -CustomDomainHttpsParameter $customDomainHttpsParameter
           azPSVersion: "latest"
+
+  deploy-dns:
+    runs-on: ubuntu-latest
+    needs: [create-afd]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in with Azure
+        uses: azure/login@v2
+        with:
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+
+      - name: Deploy DNS
+        uses: azure/arm-deploy@v2
+        id: dns
+        with:
+          scope: subscription
+          subscriptionId: "2f9cc458-4951-43a4-8231-a7b3c75b5473"
+          template: ./deploy_dns.json
+          parameters: endpointName=${{needs.create-afd.outputs.endpointName}} environment=${{env.environ}}
