@@ -4,7 +4,7 @@
     "parameters": {
         "environment": {
             "type": "string",
-            "defaultValue": "dev"
+            "defaultValue": "test"
         },
         "endpointName": {
             "type": "string",

@@ -149,4 +149,4 @@ jobs:
           subscriptionId: "2f9cc458-4951-43a4-8231-a7b3c75b5473"
           resourceGroupName: "core_services"
           template: ./deploy_dns.json
-          parameters: endpointName=${{needs.create-afd.outputs.endpointName}} environment=${{env.environ}}
+          parameters: endpointName=${{needs.create-afd.outputs.endpointName}}
