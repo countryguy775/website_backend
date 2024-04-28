@@ -20,9 +20,9 @@
             "properties": {
                 "CNAMERecord": {
                     "cname": "[parameters('endpointName')]"
-                }
-            },
-            "dependsOn": []
+                },
+                "targetResource": {}
+            }
         }
     ]
 }
