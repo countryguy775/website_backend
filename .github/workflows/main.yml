@@ -152,7 +152,7 @@ jobs:
             Set-AzContext -Subscription "2f9cc458-4951-43a4-8231-a7b3c75b5473"
             $rs = Get-AzDnsRecordSet -Name "dev" -RecordType CNAME -ZoneName "thehodgesfamily.net" -ResourceGroupName "core_services"
             Remove-AzDnsRecordConfig -RecordSet $rs -Cname $rs.Records.cname | Set-AzDnsRecordSet
-            $newcname = ${{needs.create-afd.outputs.endpointName}}
+            $newcname = '${{needs.create-afd.outputs.endpointName}}'
             Get-AzDnsRecordSet -name "dev" -RecordType CNAME -ZoneName "thehodgesfamily.net" -ResourceGroupName ${{needs.create-rg.outputs.rgName}} | Add-AzDnsRecordConfig -Cname $newcname | Set-AzDnsRecordSet
             
           azPSVersion: "latest"
