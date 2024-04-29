@@ -173,9 +173,10 @@ jobs:
 
       - name: Create App Service Plan
         uses: azure/arm-deploy@v2
-        id: APS
+        id: ASP
         with:
           scope: resourcegroup
           resourceGroupName: $${{needs.create-rg.outputs.rgName}}
+          subscriptionId: ${{secrets.AZURE_SUBSCRIPTION_ID}}
           template: ./create_app.json
           parameters: environment=${{env.environ}}
