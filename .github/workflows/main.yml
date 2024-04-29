@@ -131,7 +131,7 @@ jobs:
 
   deploy-dns:
     runs-on: ubuntu-latest
-    needs: [create-afd]
+    needs: [create-rg,create-afd]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -140,13 +140,14 @@ jobs:
         uses: azure/login@v2
         with:
           creds: ${{secrets.AZURE_CREDENTIALS}}
+          enable-AzPSSession: true
 
       - name: Deploy DNS
-        uses: azure/arm-deploy@v2
+        uses: azure/powershell@v1
         id: dns
         with:
-          scope: resourcegroup
-          subscriptionId: "2f9cc458-4951-43a4-8231-a7b3c75b5473"
-          resourceGroupName: "core_services"
-          template: ./deploy_dns.json
-          parameters: 
+          inlineScript: |
+            $ErrorActionPreference = 'Stop'
+            $rs = Get-AzDnsRecordSet -Name "" -RecordType CNAME -ZoneName "thehodgesfamily.net" -ResourceGroupName "core_services"
+            write-host $rs
+          azPSVersion: "latest"
