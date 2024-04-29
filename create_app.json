@@ -19,6 +19,7 @@
             "apiVersion": "2022-09-01",
             "name": "[variables('fullplanName')]",
             "location": "[resourceGroup().location]",
+            "kind": "functionapp",
             "sku": {
                 "name": "Y1",
                 "tier": "Dynamic"
@@ -44,17 +45,7 @@
                 "[resourceId('Microsoft.Web/serverfarms', variables('fullplanName'))]"
             ]
         },
-        {
-            "type": "Microsoft.Web/sites/config",
-            "apiVersion": "2022-09-01",
-            "name": "[format('{0}/{1}', concat(parameters('serviceplanName'), '-', parameters('environment')), 'web')]",
-            "location": "[resourceGroup().location]",
-            "properties": {},
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', concat(parameters('serviceplanName'), '-', parameters('environment')))]",
-                "[resourceId('Microsoft.Web/serverfarms', variables('fullplanName'))]"
-            ]
-        },
+        
         {
             "type": "Microsoft.Web/sites/functions",
             "apiVersion": "2022-09-01",
