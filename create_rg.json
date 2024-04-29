@@ -7,6 +7,9 @@
         },
         "environment": {
             "type": "string"
+        },
+        "location": {
+            "type": "string"
         }
     },
     "variables": {
@@ -18,7 +21,7 @@
             "type": "Microsoft.Resources/resourceGroups",
             "apiVersion": "2022-09-01",
             "name": "[variables('rgName')]",
-            "location": "eastus"
+            "location": "[parameters('location')]"
         }
     ],
     "outputs": {

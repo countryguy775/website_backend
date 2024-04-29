@@ -30,7 +30,7 @@
             "type": "string",
             "value": "[variables('storageName')]"
         },
-        "storageEndpoint": {
+        "storageWebEndpoint": {
             "type": "string",
             "value": "[reference(resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))).primaryEndpoints.web]"
         }
