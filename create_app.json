@@ -11,7 +11,7 @@
         }
     },
     "variables": {
-        "fullplanName": "[concat(parameters('serviceplanName'), '-', parameters('environment'))]"
+        "fullplanName": "[concat(parameters('serviceplanName'), '-', parameters('environment'), '-ASP')]"
     },
     "resources": [
         {
@@ -26,6 +26,19 @@
             "properties": {
                 "reserved": true
             }
+        },
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('fullplanName')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "serverFarmId": "[variables('fullplanName')]",
+                "reserved": true
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', variables('fullplanName'))]"
+            ]
         }
     ]
 }
