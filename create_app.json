@@ -30,7 +30,7 @@
         {
             "type": "Microsoft.Web/sites",
             "apiVersion": "2022-09-01",
-            "name": "[parameters('serviceplanName')]",
+            "name": "[concat(parameters('serviceplanName'), parameters('environment'))]",
             "location": "[resourceGroup().location]",
             "kind": "functionapp,linux",
             "properties": {
