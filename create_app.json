@@ -30,7 +30,7 @@
         {
             "type": "Microsoft.Web/sites",
             "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('serviceplanName'), parameters('environment'))]",
+            "name": "[concat(parameters('serviceplanName'), '-', parameters('environment'))]",
             "location": "[resourceGroup().location]",
             "kind": "functionapp,linux",
             "properties": {
@@ -41,6 +41,17 @@
                 }
             },
             "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', variables('fullplanName'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Web/sites/config",
+            "apiVersion": "2022-09-01",
+            "name": "[format('{0}/{1}', concat(parameters('serviceplanName'), '-', parameters('environment')), 'web')]",
+            "location": "[resourceGroup().location]",
+            "properties": {},
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', concat(parameters('serviceplanName'), '-', parameters('environment')))]",
                 "[resourceId('Microsoft.Web/serverfarms', variables('fullplanName'))]"
             ]
         }
