@@ -10,7 +10,8 @@
         }
     },
     "variables": {
-        "rgName": "[concat(parameters('appName'), '-', parameters('environment'), '-rg')]"
+        "actualAppName": "[concat(parameters('appName'), '-', parameters('environment'))]",
+        "rgName": "[concat(variables('actualAppName'), '-rg')]"
     },
     "resources": [
         {
@@ -21,6 +22,10 @@
         }
     ],
     "outputs": {
+        "actualAppName": {
+            "type": "string",
+            "value": "[variables('actualAppName')]"
+        },
         "rgName": {
             "type": "string",
             "value": "[variables('rgName')]"
