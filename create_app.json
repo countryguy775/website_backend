@@ -23,7 +23,9 @@
                 "name": "Y1",
                 "tier": "Dynamic"
             },
-            "properties": {}
+            "properties": {
+                "reserved": true
+            }
         }
     ]
 }
