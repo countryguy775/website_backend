@@ -10,7 +10,7 @@
         }
     },
     "variables": {
-        "storageName": "[concat(parameters('appName'), parameters('environment'), 'storage')]"
+        "storageName": "[concat(parameters('appName'), 'storage')]"
     },
     "resources": [
         {
@@ -18,6 +18,9 @@
             "apiVersion": "2023-01-01",
             "name": "[variables('storageName')]",
             "location": "[resourceGroup().location]",
+            "tags": {
+                "environment": "[parameters('environment')]"
+            },
             "kind": "StorageV2",
             "sku": {
                 "name": "Standard_LRS",

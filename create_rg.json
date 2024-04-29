@@ -14,14 +14,17 @@
     },
     "variables": {
         "actualAppName": "[concat(parameters('appName'), '-', parameters('environment'))]",
-        "rgName": "[concat(variables('actualAppName'), '-rg')]"
+        "rgName": "[concat(parameters('appName'),'-', parameters('environment'), '-rg')]"
     },
     "resources": [
         {
             "type": "Microsoft.Resources/resourceGroups",
             "apiVersion": "2022-09-01",
             "name": "[variables('rgName')]",
-            "location": "[parameters('location')]"
+            "location": "[parameters('location')]",
+            "tags": {
+                "Environment": "[parameters('environment')]"
+            }
         }
     ],
     "outputs": {
