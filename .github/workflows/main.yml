@@ -6,6 +6,7 @@ env:
   location: eastus
   appName: familywebsite
   environ: dev
+  domainName: 'thehodgesfamily.net'
   indexDocument: 'index.html'
   errorDocument404Path: 'error.html'
   DnsZone: '/subscriptions/2f9cc458-4951-43a4-8231-a7b3c75b5473/resourceGroups/Core_Services/providers/Microsoft.Network/dnszones/thehodgesfamily.net'
@@ -83,7 +84,7 @@ jobs:
           scope: resourcegroup
           resourceGroupName: ${{needs.create-rg.outputs.rgName}}
           template: ./create_afd.json
-          parameters: appName=${{env.appName}} environment=${{env.environ}} DnsZone=${{env.DnsZone}} storageWebEndpoint=${{needs.create-storage.outputs.storageWebEndpoint}}
+          parameters: appName=${{env.appName}} environment=${{env.environ}} DnsZone=${{env.DnsZone}} domainName=${{env.domainName}} storageWebEndpoint=${{needs.create-storage.outputs.storageWebEndpoint}}
 
   create-db:
     runs-on: ubuntu-latest

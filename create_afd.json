@@ -13,13 +13,15 @@
         },
         "storageWebEndpoint": {
             "type": "string"
+        },
+        "domainName": {
+            "type": "string"
         }
     },
     "variables": {
-        "profileName": "[concat(parameters('appName'), '-afd')]",
+        "profileName": "[concat(parameters('appName'), '-', parameters('environment'), '-afd')]",
         "originGroupName": "[concat(parameters('environment'), '-origin-group')]",
-        "customdomainName": "[concat(parameters('environment'), '-thehodgesfamily-net')]",
-        "customhostName": "[concat(parameters('environment'), '.thehodgesfamily.net')]",
+        "customhostName": "[concat(parameters('environment'), '.', parameters('domainName'))]",
         "originName": "[concat(parameters('environment'), '-origin')]",
         "routeName": "[concat(parameters('environment'), '-route')]"
     },
@@ -29,6 +31,9 @@
             "apiVersion": "2021-06-01",
             "name": "[variables('profileName')]",
             "location": "Global",
+            "tags": {
+                "Environment": "[parameters('environment')]"
+            },
             "sku": {
                 "name": "Standard_AzureFrontDoor"
             },
@@ -38,8 +43,11 @@
         {
             "type": "Microsoft.Cdn/profiles/afdEndpoints",
             "apiVersion": "2021-06-01",
-            "name": "[concat(variables('profileName'), '/thehodgesfamily')]",
+            "name": "[concat(variables('profileName'), '/', substring(parameters('domainName'),0,sub(length(parameters('domainName')),4)))]",
             "location": "Global",
+            "tags": {
+                "Environment": "[parameters('environment')]"
+            },
             "properties": {},
             "dependsOn": [
                 "[resourceId('Microsoft.Cdn/profiles', variables('profileName'))]"
@@ -49,6 +57,9 @@
             "type": "Microsoft.Cdn/profiles/originGroups",
             "apiVersion": "2021-06-01",
             "name": "[concat(variables('profileName'), '/', variables('originGroupName'))]",
+            "tags": {
+                "Environment": "[parameters('environment')]"
+            },
             "properties": {
                 "loadBalancingSettings": {
                     "sampleSize": 4,
@@ -63,7 +74,10 @@
         {
             "type": "Microsoft.Cdn/profiles/customDomains",
             "apiVersion": "2021-06-01",
-            "name": "[concat(variables('profileName'), '/', variables('customdomainName'))]",
+            "name": "[concat(variables('profileName'), '/', replace(variables('customhostName'), '.', '-'))]",
+            "tags": {
+                "Environment": "[parameters('environment')]"
+            },
             "properties": {
                 "hostName": "[variables('customhostName')]",
                 "tlsSettings": {
@@ -82,6 +96,9 @@
             "type": "Microsoft.Cdn/profiles/originGroups/origins",
             "apiVersion": "2021-06-01",
             "name": "[concat(variables('profileName'), '/', variables('origingroupName'), '/', variables('originName'))]",
+            "tags": {
+                "Environment": "[parameters('environment')]"
+            },
             "properties": {
                 "hostName": "[substring(parameters('storageWebEndpoint'), 8, sub(length(parameters('storageWebEndpoint')), 9))]",
                 "httpPort": 80,
@@ -97,11 +114,11 @@
         {
             "type": "Microsoft.Cdn/profiles/afdEndpoints/routes",
             "apiVersion": "2021-06-01",
-            "name": "[concat(variables('profileName'), '/thehodgesfamily/', variables('routeName'))]",
+            "name": "[concat(variables('profileName'), '/', substring(parameters('domainName'),0,sub(length(parameters('domainName')),4)), '/', variables('routeName'))]",
             "properties": {
                 "customDomains": [
                     {
-                        "id": "[resourceId('Microsoft.Cdn/profiles/customdomains', variables('profileName'), variables('customdomainName'))]"
+                        "id": "[resourceId('Microsoft.Cdn/profiles/customdomains', variables('profileName'), replace(variables('customhostName'),'.','-'))]"
                     }
                 ],
                 "originGroup": {
@@ -121,9 +138,9 @@
             },
             "dependsOn": [
                 "[resourceId('Microsoft.Cdn/profiles', variables('profileName'))]",
-                "[resourceId('Microsoft.Cdn/profiles/afdEndpoints', variables('profileName'), 'thehodgesfamily')]",
+                "[resourceId('Microsoft.Cdn/profiles/afdEndpoints', variables('profileName'), substring(parameters('domainName'),0,sub(length(parameters('domainName')),4)))]",
                 "[resourceId('Microsoft.Cdn/profiles/originGroups', variables('profileName'), variables('originGroupName'))]",
-                "[resourceId('Microsoft.Cdn/profiles/customDomains', variables('profileName'), variables('customdomainName'))]"
+                "[resourceId('Microsoft.Cdn/profiles/customDomains', variables('profileName'), replace(variables('customhostName'),'.','-'))]"
             ]
         }
     ],
@@ -134,11 +151,11 @@
         },
         "customDomainName": {
             "type": "string",
-            "value": "[variables('customdomainName')]"
+            "value": "[replace(variables('customhostName'),'.','-')]"
         },
         "endpointName": {
             "type": "string",
-            "value": "[reference(resourceId('Microsoft.Cdn/profiles/afdEndpoints', variables('profileName'), 'thehodgesfamily')).hostName]"
+            "value": "[reference(resourceId('Microsoft.Cdn/profiles/afdEndpoints', variables('profileName'), substring(parameters('domainName'),0,sub(length(parameters('domainName')),4)))).hostName]"
         }
     }
 }

@@ -19,7 +19,7 @@
             "name": "[variables('storageName')]",
             "location": "[resourceGroup().location]",
             "tags": {
-                "environment": "[parameters('environment')]"
+                "Environment": "[parameters('environment')]"
             },
             "kind": "StorageV2",
             "sku": {
