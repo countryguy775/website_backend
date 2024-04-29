@@ -54,6 +54,17 @@
                 "[resourceId('Microsoft.Web/sites', concat(parameters('serviceplanName'), '-', parameters('environment')))]",
                 "[resourceId('Microsoft.Web/serverfarms', variables('fullplanName'))]"
             ]
+        },
+        {
+            "type": "Microsoft.Web/sites/functions",
+            "apiVersion": "2022-09-01",
+            "name": "[format('{0}/{1}', concat(parameters('serviceplanName'), '-', parameters('environment')), 'Visit_Trigger')]",
+            "location": "[resourceGroup().location]",
+            "properties": {},
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', variables('fullplanName'))]",
+                "[resourceId('Microsoft.Web/sites', concat(parameters('serviceplanName'), '-', parameters('environment')))]"
+            ]
         }
     ]
 }
