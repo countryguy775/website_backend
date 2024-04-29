@@ -146,9 +146,10 @@ jobs:
         uses: azure/powershell@v1
         id: dns
         with:
+          
           inlineScript: |
             $ErrorActionPreference = 'Stop'
-            Set-AzureSubscription -SubscriptionId "2f9cc458-4951-43a4-8231-a7b3c75b5473"
+            Set-AzContext -Subscription "2f9cc458-4951-43a4-8231-a7b3c75b5473"
             $rs = Get-AzDnsRecordSet -Name "dev" -RecordType CNAME -ZoneName "thehodgesfamily.net" -ResourceGroupName "core_services"
             write-host $rs
           azPSVersion: "latest"
