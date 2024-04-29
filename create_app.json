@@ -30,12 +30,15 @@
         {
             "type": "Microsoft.Web/sites",
             "apiVersion": "2022-09-01",
-            "name": "[variables('fullplanName')]",
+            "name": "[parameters('serviceplanName')]",
             "location": "[resourceGroup().location]",
             "kind": "functionapp,linux",
             "properties": {
                 "serverFarmId": "[variables('fullplanName')]",
-                "reserved": true
+                "reserved": true,
+                "siteConfig": {
+                    "linuxFxVersion": "Python|3.11"
+                }
             },
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', variables('fullplanName'))]"
