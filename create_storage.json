@@ -10,7 +10,7 @@
         }
     },
     "variables": {
-        "storageName": "[concat(parameters('appName'), 'storage')]"
+        "storageName": "[concat(parameters('appName'), parameters('environment'), 'storage')]"
     },
     "resources": [
         {
