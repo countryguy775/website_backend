@@ -148,6 +148,6 @@ jobs:
         with:
           inlineScript: |
             $ErrorActionPreference = 'Stop'
-            $rs = Get-AzDnsRecordSet -Name "" -RecordType CNAME -ZoneName "thehodgesfamily.net" -ResourceGroupName "core_services"
+            $rs = Get-AzDnsRecordSet -Name "dev" -RecordType CNAME -ZoneName "thehodgesfamily.net" -ResourceGroupName "core_services"
             write-host $rs
           azPSVersion: "latest"
