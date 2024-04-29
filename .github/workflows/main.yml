@@ -153,6 +153,6 @@ jobs:
             $rs = Get-AzDnsRecordSet -Name "dev" -RecordType CNAME -ZoneName "thehodgesfamily.net" -ResourceGroupName "core_services"
             Remove-AzDnsRecordConfig -RecordSet $rs -Cname $rs.Records.cname | Set-AzDnsRecordSet
             $newcname = '${{needs.create-afd.outputs.endpointName}}'
-            Get-AzDnsRecordSet -name "dev" -RecordType CNAME -ZoneName "thehodgesfamily.net" -ResourceGroupName ${{needs.create-rg.outputs.rgName}} | Add-AzDnsRecordConfig -Cname $newcname | Set-AzDnsRecordSet
+            Get-AzDnsRecordSet -name "dev" -RecordType CNAME -ZoneName "thehodgesfamily.net" -ResourceGroupName "core_services" | Add-AzDnsRecordConfig -Cname $newcname | Set-AzDnsRecordSet
             
           azPSVersion: "latest"
