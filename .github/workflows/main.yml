@@ -158,3 +158,24 @@ jobs:
             $newcname = '${{needs.create-afd.outputs.endpointName}}'
             Get-AzDnsRecordSet -name ${{env.environ}} -RecordType CNAME -ZoneName ${{env.domainName}} -ResourceGroupName "core_services" | Add-AzDnsRecordConfig -Cname $newcname | Set-AzDnsRecordSet
           azPSVersion: "latest"
+
+  create-app:
+    runs-on: ubuntu-latest
+    needs: [create-rg]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Login with Azure
+        uses: azure/login@v2
+        with:
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+
+      - name: Create App Service Plan
+        uses: azure/arm-deploy@v2
+        id: APS
+        with:
+          scope: resourcegroup
+          resourceGroupName: $${{needs.create-rg.outputs.rgName}}
+          template: ./create_app.json
+          parameters: environment=${{env.environ}}
