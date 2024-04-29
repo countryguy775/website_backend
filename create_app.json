@@ -32,6 +32,7 @@
             "apiVersion": "2022-09-01",
             "name": "[variables('fullplanName')]",
             "location": "[resourceGroup().location]",
+            "kind": "functionapp,linux",
             "properties": {
                 "serverFarmId": "[variables('fullplanName')]",
                 "reserved": true
