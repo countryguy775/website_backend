@@ -8,10 +8,10 @@
         "environment": {
             "type": "string"
         },
-        "dnszones_externalid": {
+        "DnsZone": {
             "type": "string"
         },
-        "storageEndpoint": {
+        "storageWebEndpoint": {
             "type": "string"
         }
     },
@@ -71,7 +71,7 @@
                     "minimumTlsVersion": "TLS12"
                 },
                 "azureDnsZone": {
-                    "id": "[parameters('dnszones_externalid')]"
+                    "id": "[parameters('DnsZone')]"
                 }
             },
             "dependsOn": [
@@ -83,7 +83,7 @@
             "apiVersion": "2021-06-01",
             "name": "[concat(variables('profileName'), '/', variables('origingroupName'), '/', variables('originName'))]",
             "properties": {
-                "hostName": "[substring(parameters('storageEndpoint'), 8, sub(length(parameters('storageEndpoint')), 9))]",
+                "hostName": "[substring(parameters('storageWebEndpoint'), 8, sub(length(parameters('storageWebEndpoint')), 9))]",
                 "httpPort": 80,
                 "httpsPort": 443,
                 "enabledState": "Enabled",
