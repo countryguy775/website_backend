@@ -176,7 +176,7 @@ jobs:
         id: ASP
         with:
           scope: resourcegroup
-          resourceGroupName: $${{needs.create-rg.outputs.rgName}}
-          subscriptionId: ${{secrets.AZURE_SUBSCRIPTION_ID}}
+          resourceGroupName: ${{needs.create-rg.outputs.rgName}}
+          
           template: ./create_app.json
           parameters: environment=${{env.environ}}
