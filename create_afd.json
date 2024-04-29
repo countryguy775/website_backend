@@ -115,6 +115,9 @@
             "type": "Microsoft.Cdn/profiles/afdEndpoints/routes",
             "apiVersion": "2021-06-01",
             "name": "[concat(variables('profileName'), '/', substring(parameters('domainName'),0,sub(length(parameters('domainName')),4)), '/', variables('routeName'))]",
+            "tags": {
+                "Environment": "[parameters('environment')]"
+            },
             "properties": {
                 "customDomains": [
                     {
