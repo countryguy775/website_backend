@@ -185,7 +185,7 @@ jobs:
         uses: azure/powershell@v1
         with: 
           inlineScript: |
-            $ErrorActionPreference = 'Stop'
+            $ErrorActionPreference = 'SilentlyContinue'
             $storageAccount = Get-AzStorageAccount -ResourceGroupName ${{needs.create-rg.outputs.rgName}} -AccountName ${{needs.create-storage.outputs.storageName}}
             $ctx = $storageAccount.Context
             $ContainerName = 'app'
