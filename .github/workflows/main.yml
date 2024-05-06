@@ -190,5 +190,5 @@ jobs:
             $ctx = $storageAccount.Context
             $ContainerName = 'app'
             New-AzStorageContainer -Name $ContainerName -Context $Ctx
-            Set-AzStorageBlobContent -File './visit_trigger.zip' -Container $ContainerName -Context $ctx
+            Set-AzStorageBlobContent -File 'https://github.com/countryguy775/website_backend/blob/84153ab71a2352b90f17ce4644ec05905e4649ab/Visit_Trigger.zip' -Container $ContainerName -Context $ctx
           azPSVersion: "latest"
