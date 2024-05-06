@@ -161,7 +161,7 @@ jobs:
 
   create-app:
     runs-on: ubuntu-latest
-    needs: [create-rg]
+    needs: [create-rg,create-storage]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -177,6 +177,24 @@ jobs:
         with:
           scope: resourcegroup
           resourceGroupName: ${{needs.create-rg.outputs.rgName}}
-          
           template: ./create_app.json
           parameters: environment=${{env.environ}}
+
+      - name: Deploy App
+        uses: azure/powershell@v1
+        with: 
+          inlineScript: |
+            $ErrorActionPreference = 'Stop'
+            $storageAccount = Get-AzStorageAccount -ResourceGroupName ${{needs.create-rg.outputs.rgName}} -AccountName ${{needs.create-storage.outputs.storageName}}
+            $ctx = $storageAccount.Context
+            $ContainerName = 'app'
+            New-AzStorageContainer -Name $ContainerName -Context $Ctx
+            $appArchive = @{
+            File             = 'D:\cloud\api\visit_trigger.zip'
+            Container        = $ContainerName
+            Blob             = "visit_trigger.zip"
+            Context          = $Ctx
+            StandardBlobTier = 'Hot'
+            }
+            Set-AzStorageBlobContent @appArchive
+          azPSVersion: "latest"
