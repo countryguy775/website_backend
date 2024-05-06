@@ -190,12 +190,6 @@ jobs:
             $ctx = $storageAccount.Context
             $ContainerName = 'app'
             New-AzStorageContainer -Name $ContainerName -Context $Ctx
-            $appArchive = @{
-            File             = 'D:\cloud\api\visit_trigger.zip'
-            Container        = $ContainerName
-            Blob             = "visit_trigger.zip"
-            Context          = $Ctx
-            StandardBlobTier = 'Hot'
-            }
-            Set-AzStorageBlobContent @appArchive
+            
+            Set-AzStorageBlobContent -File 'd:\cloud\api\visit_trigger.zip' -Container $ContainerName -Context $ctx
           azPSVersion: "latest"
