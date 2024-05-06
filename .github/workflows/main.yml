@@ -170,6 +170,7 @@ jobs:
         uses: azure/login@v2
         with:
           creds: ${{secrets.AZURE_CREDENTIALS}}
+          enable-AzPSSession: true
 
       - name: Create App Service Plan
         uses: azure/arm-deploy@v2
