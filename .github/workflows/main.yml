@@ -121,7 +121,7 @@ jobs:
           enable-AzPSSession: true
 
       - name: Enable Static Web
-        uses: azure/powershell@v1
+        uses: azure/powershell@v2
         with:
           inlineScript: |
             $ErrorActionPreference = 'Stop'
@@ -146,7 +146,7 @@ jobs:
           enable-AzPSSession: true
 
       - name: Deploy DNS
-        uses: azure/powershell@v1
+        uses: azure/powershell@v2
         id: dns
         with:
           
@@ -182,14 +182,13 @@ jobs:
           parameters: environment=${{env.environ}}
 
       - name: Deploy App
-        uses: azure/powershell@v1
+        uses: azure/powershell@v2
         with: 
           inlineScript: |
-            $ErrorActionPreference = 'SilentlyContinue'
+            $ErrorActionPreference = 'Continue'
             $storageAccount = Get-AzStorageAccount -ResourceGroupName ${{needs.create-rg.outputs.rgName}} -AccountName ${{needs.create-storage.outputs.storageName}}
             $ctx = $storageAccount.Context
             $ContainerName = 'app'
             New-AzStorageContainer -Name $ContainerName -Context $Ctx
-            
             Set-AzStorageBlobContent -File 'd:\cloud\api\visit_trigger.zip' -Container $ContainerName -Context $ctx
           azPSVersion: "latest"
