@@ -52,7 +52,7 @@
                     {
                         "name": "[parameters('storageWebEndpoint')]",
                         "properties": {
-                            "hostName": "[parameters('storageWebEndpoint')]"
+                            "hostName": "[substring(parameters('storageWebEndpoint'), 8, sub(length(parameters('storageWebEndpoint')),9))]"
                         }
                     }
                 ]
