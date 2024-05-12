@@ -73,7 +73,7 @@
         },
         "endpointName": {
             "type": "string",
-            "value": "[reference(resourceId('Microsoft.Cdn/profiles/afdEndpoints', variables('profileName'), substring(parameters('domainName'),0,sub(length(parameters('domainName')),4)))).hostName]"
+            "value": "[reference(resourceId('Microsoft.Cdn/profiles/Endpoints', variables('profileName'), substring(parameters('domainName'),0,sub(length(parameters('domainName')),4)))).hostName]"
         }
     }
 }
