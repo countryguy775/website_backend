@@ -50,7 +50,7 @@
             "properties": {
                 "origins": [
                     {
-                        "name": "[parameters('storageWebEndpoint')]",
+                        "name": "[replace(substring(parameters('storageWebEndpoint'),8,sub(length(parameters('storageWebEndpoint')),9)),'.','-')]",
                         "properties": {
                             "hostName": "[substring(parameters('storageWebEndpoint'), 8, sub(length(parameters('storageWebEndpoint')),9))]"
                         }
