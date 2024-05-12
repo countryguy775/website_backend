@@ -66,7 +66,7 @@
         {
             "type": "Microsoft.Cdn/profiles/endpoints/customDomains",
             "apiVersion": "2021-06-01",
-            "name": "[concat(variables('profileName'), '/', replace(variables('customhostName'), '.', '-'))]",
+            "name": "[concat(variables('profileName'), '/', substring(parameters('domainName'),0,sub(length(parameters('domainName')),4)), replace(variables('customhostName'), '.', '-'))]",
             "tags": {
                 "Environment": "[parameters('environment')]"
             },
