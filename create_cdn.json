@@ -48,6 +48,7 @@
                 "Environment": "[parameters('environment')]"
             },
             "properties": {
+                "originHostHeader": "[substring(parameters('storageWebEndpoint'), 8, sub(length(parameters('storageWebEndpoint')),9))]",
                 "origins": [
                     {
                         "name": "[replace(substring(parameters('storageWebEndpoint'),8,sub(length(parameters('storageWebEndpoint')),9)),'.','-')]",
