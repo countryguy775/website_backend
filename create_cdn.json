@@ -64,7 +64,7 @@
             ]
         },
         {
-            "type": "Microsoft.Cdn/profiles/customDomains",
+            "type": "Microsoft.Cdn/profiles/endpoints/customDomains",
             "apiVersion": "2021-06-01",
             "name": "[concat(variables('profileName'), '/', replace(variables('customhostName'), '.', '-'))]",
             "tags": {
