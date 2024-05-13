@@ -71,14 +71,7 @@
                 "Environment": "[parameters('environment')]"
             },
             "properties": {
-                "hostName": "[variables('customhostName')]",
-                "tlsSettings": {
-                    "certificateType": "ManagedCertificate",
-                    "minimumTlsVersion": "TLS12"
-                },
-                "azureDnsZone": {
-                    "id": "[parameters('DnsZone')]"
-                }
+                "hostName": "[variables('customhostName')]"
             },
             "dependsOn": [
                 "[resourceId('Microsoft.Cdn/profiles', variables('profileName'))]"
