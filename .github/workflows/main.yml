@@ -129,7 +129,7 @@ jobs:
             $ctx = $storageAccount.Context
             Enable-AzStorageStaticWebsite -Context $ctx -IndexDocument $env:indexDocument -ErrorDocument404Path $env:errorDocument404Path
             $customDomainHttpsParameter = New-AzCdnManagedHttpsParametersObject -CertificateSourceParameterCertificateType Dedicated -CertificateSource Cdn -ProtocolType ServerNameIndication
-            Enable-AzCdnCustomDomainCustomHttps -ResourceGroupName ${{needs.create-rg.outputs.rgName}} -ProfileName ${{needs.create-cdn.outputs.profileName}} -EndpointName ${{needs.create-storage.outputs.storageWebEndpoint}} -CustomDomainName ${{needs.create-cdn.outputs.customDomainName}} -CustomDomainHttpsParameter $customDomainHttpsParameter
+            Enable-AzCdnCustomDomainCustomHttps -ResourceGroupName ${{needs.create-rg.outputs.rgName}} -ProfileName ${{needs.create-cdn.outputs.profileName}} -EndpointName 'thehodgesfamily' -CustomDomainName ${{needs.create-cdn.outputs.customDomainName}} -CustomDomainHttpsParameter $customDomainHttpsParameter
           azPSVersion: "latest"
 
   deploy-dns:
