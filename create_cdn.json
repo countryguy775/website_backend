@@ -42,7 +42,7 @@
         {
             "type": "Microsoft.Cdn/profiles/Endpoints",
             "apiVersion": "2021-06-01",
-            "name": "[concat(variables('profileName'), '/', substring(parameters('domainName'),0,sub(length(parameters('domainName')),4)))]",
+            "name": "[concat(variables('profileName'), '/', parameters('appName'))]",
             "location": "Global",
             "tags": {
                 "Environment": "[parameters('environment')]"
@@ -66,7 +66,7 @@
         {
             "type": "Microsoft.Cdn/profiles/endpoints/customDomains",
             "apiVersion": "2021-06-01",
-            "name": "[concat(variables('profileName'), '/', substring(parameters('domainName'),0,sub(length(parameters('domainName')),4)),'/', replace(variables('customhostName'), '.', '-'))]",
+            "name": "[concat(variables('profileName'), '/', parameters('appName'),'/', replace(variables('customhostName'), '.', '-'))]",
             "tags": {
                 "Environment": "[parameters('environment')]"
             },
@@ -89,7 +89,7 @@
         },
         "endpointName": {
             "type": "string",
-            "value": "[reference(resourceId('Microsoft.Cdn/profiles/Endpoints', variables('profileName'), substring(parameters('domainName'),0,sub(length(parameters('domainName')),4)))).hostName]"
+            "value": "[reference(resourceId('Microsoft.Cdn/profiles/Endpoints', variables('profileName'), parameters('appName'))).hostName]"
         }
     }
 }
