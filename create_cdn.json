@@ -62,20 +62,6 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Cdn/profiles', variables('profileName'))]"
             ]
-        },
-        {
-            "type": "Microsoft.Cdn/profiles/endpoints/customDomains",
-            "apiVersion": "2021-06-01",
-            "name": "[concat(variables('profileName'), '/', parameters('appName'),'/', replace(variables('customhostName'), '.', '-'))]",
-            "tags": {
-                "Environment": "[parameters('environment')]"
-            },
-            "properties": {
-                "hostName": "[variables('customhostName')]"
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Cdn/profiles', variables('profileName'))]"
-            ]
         }
     ],
     "outputs": {
