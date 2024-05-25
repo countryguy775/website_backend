@@ -69,7 +69,10 @@
             "name": "[concat(variables('profileName'),'/',parameters('appName'),'/',replace(variables('customhostName'),'.','-'))]",
             "properties": {
                 "hostName": "[variables('customhostName')]"
-            }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Cdn/profiles/Endpoints', variables('profileName'), parameters('appName'))]"
+            ]
         }
     ],
     "outputs": {
