@@ -107,31 +107,6 @@ jobs:
           template: ./create_db.json
           parameters: appName=${{env.appName}} environment=${{env.environ}}
 
-  enable-staticweb:
-    runs-on: ubuntu-latest
-    needs: [create-rg,create-storage,create-cdn]
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Log in with Azure
-        uses: azure/login@v2
-        with:
-          creds: ${{secrets.AZURE_CREDENTIALS}}
-          enable-AzPSSession: true
-
-      - name: Enable Static Web
-        uses: azure/powershell@v2
-        with:
-          inlineScript: |
-            $ErrorActionPreference = 'Stop'
-            $storageAccount = Get-AzStorageAccount -ResourceGroupName ${{needs.create-rg.outputs.rgName}} -AccountName ${{needs.create-storage.outputs.storageName}}
-            $ctx = $storageAccount.Context
-            Enable-AzStorageStaticWebsite -Context $ctx -IndexDocument $env:indexDocument -ErrorDocument404Path $env:errorDocument404Path
-            $customDomainHttpsParameter = New-AzCdnManagedHttpsParametersObject -CertificateSourceParameterCertificateType Dedicated -CertificateSource Cdn -ProtocolType ServerNameIndication
-            Enable-AzCdnCustomDomainCustomHttps -ResourceGroupName ${{needs.create-rg.outputs.rgName}} -ProfileName ${{needs.create-cdn.outputs.profileName}} -EndpointName ${{env.appName}} -CustomDomainName ${{needs.create-cdn.outputs.customDomainName}} -CustomDomainHttpsParameter $customDomainHttpsParameter
-          azPSVersion: "latest"
-
   deploy-dns:
     runs-on: ubuntu-latest
     needs: [create-rg,create-cdn]
@@ -158,6 +133,52 @@ jobs:
             $newcname = '${{needs.create-cdn.outputs.endpointName}}'
             Get-AzDnsRecordSet -name ${{env.environ}} -RecordType CNAME -ZoneName ${{env.domainName}} -ResourceGroupName "core_services" | Add-AzDnsRecordConfig -Cname $newcname | Set-AzDnsRecordSet
           azPSVersion: "latest"
+  
+  create-customdomain:
+    runs-on: ubuntu-latest
+    needs: [create-rg,create-cdn,deploy-dns]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in with Azure
+        uses: azure/login@v2
+
+      - name: Create Custom Domain
+        uses: azure/arm-deploy@v2
+        id: cdom
+        with:
+          scope: resourcegroup
+          resourceGroupName: ${{needs.create-rg.outputs.rgName}}
+          template: ./create_customdomain.json
+          parameters: profileName=${{needs.create-cdn.outputs.profileName}} appName=${{env.appName}} customHostName=${{needs.create-cdn.outputs.customDomainName}}
+  
+  enable-staticweb:
+    runs-on: ubuntu-latest
+    needs: [create-rg,create-storage,create-cdn,create-customdomain]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in with Azure
+        uses: azure/login@v2
+        with:
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+          enable-AzPSSession: true
+
+      - name: Enable Static Web
+        uses: azure/powershell@v2
+        with:
+          inlineScript: |
+            $ErrorActionPreference = 'Stop'
+            $storageAccount = Get-AzStorageAccount -ResourceGroupName ${{needs.create-rg.outputs.rgName}} -AccountName ${{needs.create-storage.outputs.storageName}}
+            $ctx = $storageAccount.Context
+            Enable-AzStorageStaticWebsite -Context $ctx -IndexDocument $env:indexDocument -ErrorDocument404Path $env:errorDocument404Path
+            $customDomainHttpsParameter = New-AzCdnManagedHttpsParametersObject -CertificateSourceParameterCertificateType Dedicated -CertificateSource Cdn -ProtocolType ServerNameIndication
+            Enable-AzCdnCustomDomainCustomHttps -ResourceGroupName ${{needs.create-rg.outputs.rgName}} -ProfileName ${{needs.create-cdn.outputs.profileName}} -EndpointName ${{env.appName}} -CustomDomainName ${{needs.create-cdn.outputs.customDomainName}} -CustomDomainHttpsParameter $customDomainHttpsParameter
+          azPSVersion: "latest"
+
+  
 
   create-app:
     runs-on: ubuntu-latest
