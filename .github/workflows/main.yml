@@ -10,6 +10,9 @@ env:
   indexDocument: 'index.html'
   errorDocument404Path: 'error.html'
   DnsZone: '/subscriptions/2f9cc458-4951-43a4-8231-a7b3c75b5473/resourceGroups/Core_Services/providers/Microsoft.Network/dnszones/thehodgesfamily.net'
+  PYTHON_VERSION: '3.11'
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: './api'
+  AZURE_FUNCTIONAPP_NAME: 'VisitCountAppDEV'
 
 jobs:
   create-rg:
@@ -195,23 +198,25 @@ jobs:
           creds: ${{secrets.AZURE_CREDENTIALS}}
           enable-AzPSSession: true
 
-      - name: Create App Service Plan
-        uses: azure/arm-deploy@v2
-        id: ASP
+      - name: Setup Python ${{ env.PYTHON_VERSION }} Environment
+        uses: actions/setup-python@v5
         with:
-          scope: resourcegroup
-          resourceGroupName: ${{needs.create-rg.outputs.rgName}}
-          template: ./create_app.json
-          parameters: environment=${{env.environ}}
-
-      - name: Deploy App
-        uses: azure/powershell@v2
-        with: 
-          inlineScript: |
-            $ErrorActionPreference = 'Continue'
-            $storageAccount = Get-AzStorageAccount -ResourceGroupName ${{needs.create-rg.outputs.rgName}} -AccountName ${{needs.create-storage.outputs.storageName}}
-            $ctx = $storageAccount.Context
-            $ContainerName = 'app'
-            New-AzStorageContainer -Name $ContainerName -Context $Ctx
-            Set-AzStorageBlobContent -File 'https://github.com/countryguy775/website_backend/blob/84153ab71a2352b90f17ce4644ec05905e4649ab/Visit_Trigger.zip' -Container $ContainerName -Context $ctx
-          azPSVersion: "latest"
+          python-version: ${{ env.PYTHON_VERSION }}
+    
+      - name: 'Resolve Project Dependencies Using Pip'
+        shell: bash
+        run: |
+          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt --target=".python_packages/lib/site-packages"
+          popd
+  
+      - name: 'Run Azure Functions Action'
+        uses: Azure/functions-action@v1
+        id: fa
+        with:
+          app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+          #publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }} # Remove publish-profile to use Azure RBAC
+          scm-do-build-during-deployment: true
+          enable-oryx-build: true
