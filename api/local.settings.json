@@ -1,7 +1,8 @@
 {
   "IsEncrypted": false,
   "Values": {
-    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=familywebsitedevstorage;AccountKey=zfB0d9ZGNYN9MZ+YadFLG/TvJp98DLodskuWFAi6IMyZmnkGCr8BDlEYWUGENW10HbFJV3gkXj42+AStn9EIAQ==;EndpointSuffix=core.windows.net",
+    "AzureWebJobsStorage": "",
+    "AzureWebJobsStorage__accountName": "familywebsitedevstorage",
     "FUNCTIONS_WORKER_RUNTIME": "python"
   }
 }
