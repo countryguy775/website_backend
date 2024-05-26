@@ -45,5 +45,11 @@
                 "[resourceId('Microsoft.Web/serverfarms', variables('fullplanName'))]"
             ]
         }
-    ]
+    ],
+    "outputs": {
+        "appName": {
+            "type": "string",
+            "value": "[concat(parameters('serviceplanName'),'-',parameters('environment'))]"
+        }
+    }
 }
