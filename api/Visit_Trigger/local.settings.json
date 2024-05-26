@@ -4,6 +4,6 @@
     "AzureWebJobsStorage": "",
     "AzureWebJobsStorage__accountName": "familywebsitedevstorage",
     "FUNCTIONS_WORKER_RUNTIME": "python",
-    "WEBSITE_RUN_FROM_PACKAGE": "0"
+    "WEBSITE_RUN_FROM_PACKAGE": "1"
   }
 }

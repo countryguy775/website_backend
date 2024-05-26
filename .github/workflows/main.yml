@@ -12,7 +12,7 @@ env:
   DnsZone: '/subscriptions/2f9cc458-4951-43a4-8231-a7b3c75b5473/resourceGroups/Core_Services/providers/Microsoft.Network/dnszones/thehodgesfamily.net'
   PYTHON_VERSION: '3.11'
   AZURE_FUNCTIONAPP_PACKAGE_PATH: './api/Visit_Trigger'
-  AZURE_FUNCTIONAPP_NAME: 'VisitCountApp'
+  AZURE_FUNCTIONAPP_NAME: 'VisitCountApp-dev'
 
 jobs:
   create-rg:
