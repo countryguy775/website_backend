@@ -2,7 +2,6 @@
   "IsEncrypted": false,
   "Values": {
     "AzureWebJobsStorage": "",
-    "AzureWebJobsStorage_accountName": "familywebsitedevstorage",
     "FUNCTIONS_WORKER_RUNTIME": "python"
   }
 }
