@@ -41,11 +41,34 @@
                 "serverFarmId": "[variables('fullplanName')]",
                 "reserved": true,
                 "siteConfig": {
-                    "linuxFxVersion": "Python|3.11",
-                    "AzureWebJobsStorage__accountName": "[parameters('storageName')]"
+                    "linuxFxVersion": "Python|3.11"
+                    
                 }
             },
             "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', variables('fullplanName'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Web/sites/config",
+            "apiVersion": "2022-09-01",
+            "name": "[concat(parameters('serviceplanName'),'-',parameters('environment'),'/web')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "netFrameworkVersion": "v4.0",
+                "linuxFxVersion": "Python|3.11",
+                "cors": {
+                    "allowedOrigins": [
+                        "https://thehodgesfamily.net",
+                        "https://*.thehodgesfamily.net",
+                        "https://www.thehodgesfamily.net"
+                    ],
+                    "supportCredentials": true
+                },
+                "minTlsVersion": "1.2"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', concat(parameters('serviceplanName'), '-', parameters('environment')))]",
                 "[resourceId('Microsoft.Web/serverfarms', variables('fullplanName'))]"
             ]
         }
