@@ -57,15 +57,9 @@
             "properties": {
                 "netFrameworkVersion": "v4.0",
                 "linuxFxVersion": "Python|3.11",
-                "cors": {
-                    "allowedOrigins": [
-                        "https://thehodgesfamily.net",
-                        "https://*.thehodgesfamily.net",
-                        "https://www.thehodgesfamily.net"
-                    ],
-                    "supportCredentials": true
-                },
-                "minTlsVersion": "1.2"
+                "minTlsVersion": "1.2",
+                "scmMinTlsVersion": "1.2",
+                "ftpsState": "FtpsOnly"
             },
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', concat(parameters('serviceplanName'), '-', parameters('environment')))]",
