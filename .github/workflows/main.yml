@@ -204,7 +204,7 @@ jobs:
           scope: resourcegroup
           resourceGroupName: ${{needs.create-rg.outputs.rgName}}
           template: ./create_app.json
-          parameters: environment=${{env.environ}} 
+          parameters: environment=${{env.environ}} storageName=${{needs.create-storage.outputs.storageName}}
 
   deploy-app:
     runs-on: ubuntu-latest

@@ -8,6 +8,9 @@
         "serviceplanName": {
             "type": "string",
             "defaultValue": "VisitCountApp"
+        },
+        "storageName": {
+            "type": "string"
         }
     },
     "variables": {
@@ -38,7 +41,8 @@
                 "serverFarmId": "[variables('fullplanName')]",
                 "reserved": true,
                 "siteConfig": {
-                    "linuxFxVersion": "Python|3.11"
+                    "linuxFxVersion": "Python|3.11",
+                    "AzureWebJobsStorage__accountName": "[parameters('storageName')]"
                 }
             },
             "dependsOn": [
