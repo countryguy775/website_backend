@@ -17,20 +17,7 @@
         "fullplanName": "[concat(parameters('serviceplanName'), '-', parameters('environment'), '-ASP')]"
     },
     "resources": [
-        {
-            "type": "Microsoft.Web/serverfarms",
-            "apiVersion": "2022-09-01",
-            "name": "[variables('fullplanName')]",
-            "location": "[resourceGroup().location]",
-            "kind": "functionapp",
-            "sku": {
-                "name": "Y1",
-                "tier": "Dynamic"
-            },
-            "properties": {
-                "reserved": true
-            }
-        },
+        
         {
             "type": "Microsoft.Web/sites",
             "apiVersion": "2022-09-01",
@@ -38,8 +25,6 @@
             "location": "[resourceGroup().location]",
             "kind": "functionapp",
             "properties": {
-                "serverFarmId": "[variables('fullplanName')]",
-                "reserved": true,
                 "siteConfig": {
                     "linuxFxVersion": "Python|3.11",
                     "appSettings": [
@@ -65,10 +50,7 @@
             }
                     ]
                 }
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', variables('fullplanName'))]"
-            ]
+            }
         }
     ],
     "outputs": {
